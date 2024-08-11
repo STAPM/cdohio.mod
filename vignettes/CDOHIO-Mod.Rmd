@@ -1,0 +1,35 @@
+---
+title: "CDOHIO-Mod User Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{CDOHIO-Mod User Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Load packages
+
+```{r setup}
+library(cdohio.mod)
+library(data.table)
+```
+
+# Prepare Inputs
+
+Firstly, set global parameters - arguments that won't vary across models. In this case we set the year to 2020 and the proportion of spending changes that are reallocated to other products to 1 - that is, 100% of spending changes will be reallocated.
+
+```{r params}
+year <- 2020
+reallocate_prop <- 1
+```
+
+
+
+# Apply Input-Output Model

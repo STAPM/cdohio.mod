@@ -1,0 +1,40 @@
+Package: cdohio.mod
+Type: Package
+Title: Commercial Determinants of Health Input-Output Model
+Version: 0.1.0
+Authors@R: 
+    c(
+    person(given = "Damon",
+           family = "Morris",
+           role = c("aut","cre"),
+           email = "d.j.morris@sheffield.ac.uk",
+           comment = c(ORCID = "0000-0001-6757-5333")),
+    person(given = "Megan",
+           family = "James",
+           role = c("aut")),
+    person(given = "Duncan",
+           family = "Gillespie",
+           role = c("aut"),
+           email = "duncan.gillespie@sheffield.ac.uk",
+           comment = c(ORCID = "0000-0003-3450-5747")),
+    person(given = "Alan",
+           family = "Brennan",
+           role = c("aut"),
+           email = "a.brennan@sheffield.ac.uk")
+    )
+Maintainer: Damon Morris <d.j.morris@sheffield.ac.uk>
+Description: Simulates the impact on macroeconomic outcomes of a change in the demand for 
+    products with a focus on different commercial determinants of health; alcohol, tobacco, 
+    food, and gambling.
+License: AGPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 2.10)
+RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports:
+    data.table
