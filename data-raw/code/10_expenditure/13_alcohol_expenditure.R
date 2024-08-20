@@ -239,11 +239,7 @@ alcohol_expenditure <- merge(mesas, alc_receipts_data_long, by = c("year","alcoh
 
 alcohol_expenditure[, "tax_year" := NULL]
 
-alcohol_expenditure[, tax_pct := tax/exp_alcohol_mn]
-
-alcohol_expenditure[, exp_alcohol_mn_bp := exp_alcohol_mn*(1 - tax_pct)]
-
-alcohol_expenditure <- alcohol_expenditure[, c("year","alcohol_category","exp_alcohol_mn","exp_alcohol_mn_bp","tax_pct")]
+alcohol_expenditure[, tax_pct := tax/exp_alcohol_mn + 0.2/(1 + 0.2)]
 
 ## write out the data
 
