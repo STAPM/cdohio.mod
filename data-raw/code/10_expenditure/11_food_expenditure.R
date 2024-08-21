@@ -73,11 +73,11 @@ food_expenditure <- merge(food_expenditure, population, by = "year")
 
 food_expenditure[, exp_per_year := (exp_per_person_per_year * population)]
 
-food_expenditure[, exp_per_year_mn := exp_per_year/1000000]
+food_expenditure[, exp_food_mn := exp_per_year/1000000]
 
 food_expenditure[, year := as.numeric(year)]
 
-food_expenditure <- food_expenditure[, c("year","food_category","cpa","exp_per_year_mn")]
+food_expenditure <- food_expenditure[, c("year","food_category","cpa","exp_food_mn")]
 
 ## write out the data
 

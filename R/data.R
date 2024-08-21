@@ -25,13 +25,12 @@
 #' estimate total tax receipts from alcohol, used to calculate expenditure measured in basic prices.
 #'
 #' @format
-#' A data frame with 48 rows and 5 columns:
+#' A data frame with 48 rows and 4 columns:
 #' \describe{
 #'   \item{year}{year}
-#'   \item{tobacco_category}{one of 2 categories of tobacco, cigarettes and hrt}
-#'   \item{exp_alcohol_mn}{total spending on licit tobacco (£millions)}
-#'   \item{exp_alcohol_mn_bp}{total spending on licit tobacco in basic prices (£millions)}
-#'   \item{spend_illicit_mn}{total spending on illicit tobacco (£millions)}
+#'   \item{alcohol_category}{one of 4 categories of alcohol; beer, cider, wine, and spirits}
+#'   \item{exp_alcohol_mn}{total spending on alcohol (£millions)}
+#'   \item{tax_pct}{excise tax and VAT as a percentage of total expenditure}
 #' }
 #' @source \href{https://www.gov.uk/government/statistics/alcohol-bulletin}{Alcohol Bulletin}
 "alcohol_expenditure"
@@ -47,7 +46,7 @@
 #'   \item{year}{year}
 #'   \item{food_category}{one of 19 categories of food consumption}
 #'   \item{cpa}{CPA product category in the input-output model}
-#'   \item{exp_per_year_mn}{annual total expenditure (£millions)}
+#'   \item{exp_food_mn}{annual total expenditure (£millions)}
 #' }
 #' @source \href{https://www.gov.uk/government/statistical-data-sets/family-food-datasets}{ONS Family Food Datasets}
 "food_expenditure"
@@ -63,7 +62,7 @@
 #' \describe{
 #'   \item{year}{year}
 #'   \item{gambling_category}{one of 9 categories of gambling}
-#'   \item{exp_per_year_mn}{total gross gambling yield (GGY) (£millions)}
+#'   \item{ggy_mn}{total gross gambling yield (GGY) (£millions)}
 #' }
 #' @source \href{https://www.data.gov.uk/dataset/e7032815-5990-4439-b5c8-8553cf5b7fdd/gb-gambling-industry-statistics-february-2024}{Gambling Commission statistics}
 "gambling_expenditure"
@@ -89,8 +88,9 @@
 #'   \item{year}{year}
 #'   \item{tobacco_category}{one of 2 categories of tobacco, cigarettes and hrt}
 #'   \item{spend_licit_mn}{total spending on licit tobacco (£millions)}
-#'   \item{spend_licit_mn_bp}{total spending on licit tobacco in basic prices (£millions)}
 #'   \item{spend_illicit_mn}{total spending on illicit tobacco (£millions)}
+#'   \item{excise_pct}{excise tax as a percentage of total expenditure}
+#'   \item{tax_pct}{excise tax and VAT as a percentage of total expenditure}
 #' }
 #' @source \href{https://www.gov.uk/government/statistics/tobacco-bulletin}{Tobacco Bulletin}
 "tobacco_expenditure"

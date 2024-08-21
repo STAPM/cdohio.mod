@@ -10,7 +10,7 @@ A data frame with 152 rows and 4 columns:
   \item{year}{year}
   \item{food_category}{one of 19 categories of food consumption}
   \item{cpa}{CPA product category in the input-output model}
-  \item{exp_per_year_mn}{annual total expenditure (£millions)}
+  \item{exp_food_mn}{annual total expenditure (£millions)}
 }
 }
 \source{

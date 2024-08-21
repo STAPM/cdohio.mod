@@ -40,7 +40,13 @@ A list object
 }
 \description{
 Generate changes in demand for alcohol, tobacco, gambling, and food. Using the
-saved expenditure data for the four product types in the model
+saved expenditure data for the four product types in the model.
+}
+\details{
+Note that for alcohol and tobacco this function also calculates changes in demand in basic prices as well as
+in purchaser prices. As alcohol and tobacco are combined in the model, and have very different levels of taxation
+relative to retail price, the conversion from purchaser prices to basic prices is done here separately for
+alcohol and tobacco rather than within the model, as is the case for other products.
 }
 \examples{
 

@@ -5,13 +5,12 @@
 \alias{alcohol_expenditure}
 \title{Alcohol Expenditure}
 \format{
-A data frame with 48 rows and 5 columns:
+A data frame with 48 rows and 4 columns:
 \describe{
   \item{year}{year}
-  \item{tobacco_category}{one of 2 categories of tobacco, cigarettes and hrt}
-  \item{exp_alcohol_mn}{total spending on licit tobacco (£millions)}
-  \item{exp_alcohol_mn_bp}{total spending on licit tobacco in basic prices (£millions)}
-  \item{spend_illicit_mn}{total spending on illicit tobacco (£millions)}
+  \item{alcohol_category}{one of 4 categories of alcohol; beer, cider, wine, and spirits}
+  \item{exp_alcohol_mn}{total spending on alcohol (£millions)}
+  \item{tax_pct}{excise tax and VAT as a percentage of total expenditure}
 }
 }
 \source{

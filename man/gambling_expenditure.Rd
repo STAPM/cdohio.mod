@@ -9,7 +9,7 @@ A data frame with 135 rows and 3 columns:
 \describe{
   \item{year}{year}
   \item{gambling_category}{one of 9 categories of gambling}
-  \item{exp_per_year_mn}{total gross gambling yield (GGY) (£millions)}
+  \item{ggy_mn}{total gross gambling yield (GGY) (£millions)}
 }
 }
 \source{

@@ -48,7 +48,7 @@ GenExpenditure <- function(year,
 
   food_data[, pct_change := change_food]
 
-  food_data[, exp_change := ((1 + pct_change) * exp_per_year_mn) - exp_per_year_mn]
+  food_data[, exp_change := ((1 + pct_change) * exp_food_mn) - exp_food_mn]
 
   food_data <- food_data[, .(exp_change = sum(exp_change)), by = "cpa"]
 
@@ -120,10 +120,10 @@ GenExpenditure <- function(year,
   alcohol_data[, pct_change := change_alcohol]
 
   alcohol_data[, exp_change_alcohol := ((1 + pct_change) * exp_alcohol_mn) - exp_alcohol_mn]
-  alcohol_data[, exp_change_alcohol_bp := ((1 + pct_change) * exp_alcohol_mn_bp) - exp_alcohol_mn_bp]
+  alcohol_data[, exp_change_alcohol_bp := exp_change_alcohol * (1 - tax_pct - 0.1426 - 0.2515)]
 
   alcohol_data <- alcohol_data[, .(exp_change_alcohol = sum(exp_change_alcohol),
-                                   exp_change_alcohol_bp = exp_change_alcohol * (1 - tax_pct - 0.1426 - 0.2515))]
+                                   exp_change_alcohol_bp = sum(exp_change_alcohol_bp))]
 
   alcohol_vec <- c(as.numeric(alcohol_data[,"exp_change_alcohol"]),
                    as.numeric(alcohol_data[,"exp_change_alcohol_bp"]))
