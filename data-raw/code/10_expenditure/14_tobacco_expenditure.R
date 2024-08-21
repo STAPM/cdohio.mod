@@ -258,21 +258,45 @@ tobacco_expenditure[, spend_illicit_hrt_mn_bp := spend_illicit_hrt_mn]
 
 tobacco_expenditure <- tobacco_expenditure[, c("year",
                                                "spend_licit_fm_mn","spend_licit_hrt_mn",
-                                               "spend_licit_fm_mn_bp","spend_licit_hrt_mn_bp",
-                                               "spend_illicit_fm_mn","spend_illicit_hrt_mn")]
+                                               "spend_illicit_fm_mn","spend_illicit_hrt_mn",
+                                               "fm_excise_pct","hrt_excise_pct")]
 
 tobacco_expenditure <- tobacco_expenditure[year %in% 2019:2022]
 
 tobacco_expenditure <- melt(tobacco_expenditure,
                             id.vars = "year",
                             measure.vars = list(c("spend_licit_fm_mn","spend_licit_hrt_mn"),
-                                                c("spend_licit_fm_mn_bp","spend_licit_hrt_mn_bp"),
-                                                c("spend_illicit_fm_mn","spend_illicit_hrt_mn")),
+                                                c("spend_illicit_fm_mn","spend_illicit_hrt_mn"),
+                                                c("fm_excise_pct","hrt_excise_pct")),
                             variable.name = "tobacco_category",
-                            value.name = c("spend_licit_mn","spend_licit_mn_bp","spend_illicit_mn"))
+                            value.name = c("spend_licit_mn","spend_illicit_mn","excise_pct"))
 
 tobacco_expenditure[, tobacco_category := factor(tobacco_category, levels = 1:2, labels = c("cigarettes","hrt"))]
+
+## tax, distributor margins, and imports as % of spending
+
+tobacco_expenditure[, tax_pct := excise_pct + 0.2/(1 + 0.2)]
 
 ## write out the data
 
 usethis::use_data(tobacco_expenditure, overwrite = TRUE)
+
+##############################################################################
+### From the supply tables: imports / distributor margins as % of supply
+
+## Imports
+
+print(paste0("Import as % of Supply, 2021: ", round(9897/69415,4)*100 ))
+print(paste0("Import as % of Supply, 2020: ", round(9519/64690,4)*100 ))
+print(paste0("Import as % of Supply, 2019: ", round(14026/69358,4)*100 ))
+print(paste0("Import as % of Supply, 2018: ", round(13437/70292,4)*100 ))
+print(paste0("Import as % of Supply, 2017: ", round(12935/65796,4)*100 ))
+
+
+## Distributors trading margins
+
+print(paste0("Distributors Trading Margins as % of Supply, 2021: ", round(17455/69415,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2020: ", round(15957/64690,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2019: ", round(17019/69358,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2018: ", round(18445/70292,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2017: ", round(16532/65796,4)*100 ))

@@ -244,3 +244,24 @@ alcohol_expenditure[, tax_pct := tax/exp_alcohol_mn + 0.2/(1 + 0.2)]
 ## write out the data
 
 usethis::use_data(alcohol_expenditure, overwrite = TRUE)
+
+
+##############################################################################
+### From the supply tables: imports / distributor margins as % of supply
+
+## Imports
+
+print(paste0("Import as % of Supply, 2021: ", round(9897/69415,4)*100 ))
+print(paste0("Import as % of Supply, 2020: ", round(9519/64690,4)*100 ))
+print(paste0("Import as % of Supply, 2019: ", round(14026/69358,4)*100 ))
+print(paste0("Import as % of Supply, 2018: ", round(13437/70292,4)*100 ))
+print(paste0("Import as % of Supply, 2017: ", round(12935/65796,4)*100 ))
+
+
+## Distributors trading margins
+
+print(paste0("Distributors Trading Margins as % of Supply, 2021: ", round(17455/69415,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2020: ", round(15957/64690,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2019: ", round(17019/69358,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2018: ", round(18445/70292,4)*100 ))
+print(paste0("Distributors Trading Margins as % of Supply, 2017: ", round(16532/65796,4)*100 ))

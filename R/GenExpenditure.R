@@ -1,7 +1,12 @@
 #' Calculate Demand Changes
 #'
 #' Generate changes in demand for alcohol, tobacco, gambling, and food. Using the
-#' saved expenditure data for the four product types in the model
+#' saved expenditure data for the four product types in the model.
+#'
+#' Note that for alcohol and tobacco this function also calculates changes in demand in basic prices as well as
+#' in purchaser prices. As alcohol and tobacco are combined in the model, and have very different levels of taxation
+#' relative to retail price, the conversion from purchaser prices to basic prices is done here separately for
+#' alcohol and tobacco rather than within the model, as is the case for other products.
 #'
 #' @param year Numeric integer. Year of expenditure data to use.
 #' @param change_food Numeric integer. Percentage change in expenditure on 19 categories of food;
@@ -76,13 +81,19 @@ GenExpenditure <- function(year,
   #########################################
   #### Changes in tobacco expenditure
 
+  ## generate a figure for tobacco in basic prices as well as purchaser prices using
+  ## the tax % of spending in the data and 14.26% as the import % from the 2021 supply
+  ## table combined alcohol and tobacco category.
+  ## Assumes tobacco import % = joint tobacco and alcohol import % and distributors trading
+  ## margin for tobacco = 0
+
   tobacco_data <- cdohio.mod::tobacco_expenditure[year == y,]
 
   tobacco_data[, pct_change_licit := change_tobacco_licit]
   tobacco_data[, pct_change_illicit := change_tobacco_illicit]
 
   tobacco_data[, exp_change_licit := ((1 + pct_change_licit) * spend_licit_mn) - spend_licit_mn]
-  tobacco_data[, exp_change_licit_bp := ((1 + pct_change_licit) * spend_licit_mn_bp) - spend_licit_mn_bp]
+  tobacco_data[, exp_change_licit_bp := exp_change_licit * (1 - tax_pct - 0.1426)]
   tobacco_data[, exp_change_illicit := ((1 + pct_change_illicit) * spend_illicit_mn) - spend_illicit_mn]
 
   tobacco_data <- tobacco_data[, .(exp_change_licit = sum(exp_change_licit),
@@ -98,6 +109,12 @@ GenExpenditure <- function(year,
   #########################################
   #### Changes in alcohol expenditure
 
+  ## generate a figure for alcohol in basic prices as well as purchaser prices using
+  ## the tax % of spending in the data, 14.26% as the import % from the 2021 supply
+  ## table combined alcohol and tobacco category, and 25.15% as the distributor trading margin.
+  ## Assumes alcohol import % = joint tobacco and alcohol import % and distributors trading
+  ## margin for alcohol = joint tobacco and alcohol
+
   alcohol_data <- cdohio.mod::alcohol_expenditure[year == y,]
 
   alcohol_data[, pct_change := change_alcohol]
@@ -106,7 +123,7 @@ GenExpenditure <- function(year,
   alcohol_data[, exp_change_alcohol_bp := ((1 + pct_change) * exp_alcohol_mn_bp) - exp_alcohol_mn_bp]
 
   alcohol_data <- alcohol_data[, .(exp_change_alcohol = sum(exp_change_alcohol),
-                                   exp_change_alcohol_bp = sum(exp_change_alcohol_bp))]
+                                   exp_change_alcohol_bp = exp_change_alcohol * (1 - tax_pct - 0.1426 - 0.2515))]
 
   alcohol_vec <- c(as.numeric(alcohol_data[,"exp_change_alcohol"]),
                    as.numeric(alcohol_data[,"exp_change_alcohol_bp"]))
