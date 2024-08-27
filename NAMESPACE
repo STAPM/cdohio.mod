@@ -3,5 +3,6 @@
 export(DemandVector)
 export(EconImpactCalc)
 export(GenExpenditure)
+export(Multipliers)
 export(TaxCalc)
 import(data.table)
