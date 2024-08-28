@@ -7,13 +7,12 @@
 #' of these combined categories equally between the two component products.
 #'
 #' @format
-#' A data frame with 48 rows and 5 columns:
+#' A data frame with 48 rows and 4 columns:
 #' \describe{
-#'   \item{CPA_hhfce}{CPA codes in the }
-#'   \item{tobacco_category}{one of 2 categories of tobacco, cigarettes and hrt}
-#'   \item{exp_alcohol_mn}{total spending on licit tobacco (£millions)}
-#'   \item{exp_alcohol_mn_bp}{total spending on licit tobacco in basic prices (£millions)}
-#'   \item{spend_illicit_mn}{total spending on illicit tobacco (£millions)}
+#'   \item{CPA_hhfce}{CPA codes in the HHFCe matrix (103 categories)}
+#'   \item{CPA}{CPA codes in the input-output tables (105 categories)}
+#'   \item{Product}{Product description}
+#'   \item{conversion}{conversion from HHEFCe category}
 #' }
 "cpa_conversion_matrix"
 
