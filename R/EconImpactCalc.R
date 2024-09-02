@@ -4,7 +4,8 @@
 #' impacts on output, gross value added, tax receipts to government, employment, and earnings. Three types of effect are
 #' reported - the direct effects, direct + indirect effects, and direct + indirect + induced effects.
 #'
-#' @param year Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
 #' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices.
 #' @param alcohol_tax Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.
 #' @param tobacco_tax Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.
@@ -18,6 +19,7 @@
 #'
 #' }
 EconImpactCalc <- function(year = 2020,
+                           year_io = 2020,
                            input_vector,
                            alcohol_tax = 0,
                            tobacco_tax = 0){
@@ -31,16 +33,16 @@ EconImpactCalc <- function(year = 2020,
   ### extract the selected input-output table ###
   ###############################################
 
-  if (year == 2017){
+  if (year_io == 2017){
     inputoutput <- cdohio.mod::inputoutput_2017
   }
-  if (year == 2018){
+  if (year_io == 2018){
     inputoutput <- cdohio.mod::inputoutput_2018
   }
-  if (year == 2019){
+  if (year_io == 2019){
     inputoutput <- cdohio.mod::inputoutput_2019
   }
-  if (year == 2020){
+  if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
 

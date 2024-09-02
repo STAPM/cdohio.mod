@@ -3,7 +3,7 @@
 #' Take inputs created with the `GenExpenditure` function and construct a vector of changes in
 #' final demand to use as the input to the input-output model.
 #'
-#' @param year Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
 #' @param reallocate_prop Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.
 #' @param excluded_products Character vector. Products to exclude from reallocation. The products excluded can be any from
 #' c("alcohol","tobacco","food","gambling") - default is to exclude all four categories.
@@ -23,7 +23,7 @@
 #' \dontrun{
 #'
 #' }
-DemandVector <- function(year = 2020,
+DemandVector <- function(year_io = 2020,
                          reallocate_prop = 1.00,
                          excluded_products = c("alcohol","tobacco","food","gambling")[1:4],
                          conversion_matrix = cdohio.mod::cpa_conversion_matrix,
@@ -36,16 +36,16 @@ DemandVector <- function(year = 2020,
   ### extract the selected input-output table ###
   ###############################################
 
-  if (year == 2017){
+  if (year_io == 2017){
     inputoutput <- cdohio.mod::inputoutput_2017
   }
-  if (year == 2018){
+  if (year_io == 2018){
     inputoutput <- cdohio.mod::inputoutput_2018
   }
-  if (year == 2019){
+  if (year_io == 2019){
     inputoutput <- cdohio.mod::inputoutput_2019
   }
-  if (year == 2020){
+  if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
 
