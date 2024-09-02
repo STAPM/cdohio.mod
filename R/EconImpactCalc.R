@@ -82,7 +82,10 @@ EconImpactCalc <- function(year = 2020,
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production + alc_tob_duties
+  tax_products_tobalc_adjust <- tax_products[16]
+  tax_products[16] <- tax_products[16] - tax_products_tobalc_adjust + alc_tob_duties
+
+  tax_vec <- tax_products + tax_production
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients
@@ -110,11 +113,15 @@ EconImpactCalc <- function(year = 2020,
   ### calculate change in compensation of employees
   coe_vec <- output_vec * inputoutput$coe_coefficients
 
-  ### calculate change in tax
+  ### calculate change in tax (replace direct effect of tax on products for alcohol
+  ### and tobacco with manually calculated amounts)
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production + alc_tob_duties
+
+  tax_products[16] <- tax_products[16] - tax_products_tobalc_adjust + alc_tob_duties
+
+  tax_vec <- tax_products + tax_production
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients
@@ -147,7 +154,10 @@ EconImpactCalc <- function(year = 2020,
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production + alc_tob_duties
+
+  tax_products[16] <- tax_products[16] - tax_products_tobalc_adjust + alc_tob_duties
+
+  tax_vec <- tax_products + tax_production
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients

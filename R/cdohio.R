@@ -45,11 +45,21 @@ cdohio <- function(year = 2020,
   ##### (1) Derive vectors of expenditure changes
 
   scenario <- GenExpenditure(year = year,
-                             change_food =            rep(0, 19),
-                             change_gambling =        rep(0, 9),
-                             change_tobacco_licit =   rep(0, 2),
-                             change_tobacco_illicit = rep(0, 2),
-                             change_alcohol =         rep(0, 4))
+                             change_food = change_food,
+                             change_gambling = change_gambling,
+                             change_tobacco_licit = change_tobacco_licit,
+                             change_tobacco_illicit = change_tobacco_illicit,
+                             change_alcohol = change_alcohol)
+
+  exp_food      <- sum(scenario$food)
+  exp_gambling  <- sum(scenario$gambling)
+  exp_alcohol   <- scenario$alcohol[["alcohol"]]
+  exp_tobacco_l <- scenario$tobacco[["tobacco_l"]]
+  exp_tobacco_i <- scenario$tobacco[["tobacco_i"]]
+
+  expenditure_change <- data.table(category = c("food","gambling","alcohol","tobacco (licit)","tobacco (illicit)"),
+                                   expenditure_change = c(exp_food,exp_gambling,exp_alcohol,exp_tobacco_l,exp_tobacco_i))
+
 
   ###########################################################
   ##### (2) Derive vectors of expenditure changes
@@ -79,7 +89,8 @@ cdohio <- function(year = 2020,
   ##############################
   #### Return ##################
 
-  return(list(effects = impacts$effects,
+  return(list(expenditure_change = expenditure_change,
+              effects = impacts$effects,
               type0_effects_by_product = impacts$type0_effects_by_product,
               type1_effects_by_product = impacts$type1_effects_by_product,
               type2_effects_by_product = impacts$type2_effects_by_product,
