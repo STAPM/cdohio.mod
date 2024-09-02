@@ -5,7 +5,9 @@
 #' reported - the direct effects, direct + indirect effects, and direct + indirect + induced effects.
 #'
 #' @param year Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
-#' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices
+#' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices.
+#' @param alcohol_tax Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.
+#' @param tobacco_tax Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.
 #'
 #' @return A list of outputs
 #' @export
@@ -16,7 +18,14 @@
 #'
 #' }
 EconImpactCalc <- function(year = 2020,
-                           input_vector){
+                           input_vector,
+                           alcohol_tax = 0,
+                           tobacco_tax = 0){
+
+  ## Add changes in tax on alcohol and tobacco which was calculated
+  ## manually
+
+  alc_tob_duties <- alcohol_tax + tobacco_tax
 
   ###############################################
   ### extract the selected input-output table ###
@@ -71,7 +80,7 @@ EconImpactCalc <- function(year = 2020,
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production
+  tax_vec <- tax_products + tax_production + alc_tob_duties
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients
@@ -103,7 +112,7 @@ EconImpactCalc <- function(year = 2020,
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production
+  tax_vec <- tax_products + tax_production + alc_tob_duties
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients
@@ -136,7 +145,7 @@ EconImpactCalc <- function(year = 2020,
   tax_production <- output_vec * inputoutput$gva_coefficients
   tax_products <- output_vec * output_to_supply * tax_pct
 
-  tax_vec <- tax_products + tax_production
+  tax_vec <- tax_products + tax_production + alc_tob_duties
 
   ### calculate change in employment
   fte_vec <- output_vec * cdohio.mod::fte_coefficients

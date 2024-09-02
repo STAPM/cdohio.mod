@@ -4,12 +4,16 @@
 \alias{EconImpactCalc}
 \title{Calculate Economic Impacts}
 \usage{
-EconImpactCalc(year = 2020, input_vector)
+EconImpactCalc(year = 2020, input_vector, alcohol_tax = 0, tobacco_tax = 0)
 }
 \arguments{
 \item{year}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.}
 
-\item{input_vector}{Numeric vector. The vector of length 105 of changes in final demand in basic prices}
+\item{input_vector}{Numeric vector. The vector of length 105 of changes in final demand in basic prices.}
+
+\item{alcohol_tax}{Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.}
+
+\item{tobacco_tax}{Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.}
 }
 \value{
 A list of outputs
