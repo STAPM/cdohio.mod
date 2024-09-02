@@ -7,6 +7,7 @@
 EconImpactCalc(
   year = 2020,
   year_io = 2020,
+  base = 2020,
   input_vector,
   alcohol_tax = 0,
   tobacco_tax = 0
@@ -16,6 +17,8 @@ EconImpactCalc(
 \item{year}{Numeric. Year of expenditure, tax, and labour market outcomes data to use.}
 
 \item{year_io}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.}
+
+\item{base}{Numeric. Base year to use for inflation adjustment - default is 2020.}
 
 \item{input_vector}{Numeric vector. The vector of length 105 of changes in final demand in basic prices.}
 

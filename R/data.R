@@ -251,3 +251,17 @@
 #'
 #' @source \href{https://www.gov.uk/government/collections/tax-structure-and-parameters-statistics}{Tax structure and parameters statistics}
 "income_tax_params"
+
+#' RPI Inflation
+#'
+#' Annual inflation from the Retail Price Index (RPI) for years 1987 - 2023
+#'
+#' @format
+#' A data table with 37 rows and 2 columns:
+#' \describe{
+#'   \item{year}{year}
+#'   \item{rpi_index}{inflation index (base = July 1987)}
+#' }
+#'
+#' @source \href{https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/chaw/mm23}{ONS inflation and price indices}
+"rpi"

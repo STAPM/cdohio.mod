@@ -6,6 +6,7 @@
 #'
 #' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use.
 #' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param base Numeric. Base year to use for inflation adjustment - default is 2020.
 #' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices.
 #' @param alcohol_tax Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.
 #' @param tobacco_tax Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.
@@ -20,14 +21,23 @@
 #' }
 EconImpactCalc <- function(year = 2020,
                            year_io = 2020,
+                           base = 2020,
                            input_vector,
                            alcohol_tax = 0,
                            tobacco_tax = 0){
 
+  ###################################################################
   ## Add changes in tax on alcohol and tobacco which was calculated
   ## manually
 
   alc_tob_duties <- alcohol_tax + tobacco_tax
+
+  ###############################################
+  ### create inflation adjustment factor ########
+
+  yr <- copy(year)
+
+  infl_adjust <- as.numeric(cdohio.mod::rpi[year == base,"rpi_index"]) / as.numeric(cdohio.mod::rpi[year == yr,"rpi_index"])
 
   ###############################################
   ### extract the selected input-output table ###
@@ -95,6 +105,14 @@ EconImpactCalc <- function(year = 2020,
   net_earn_vec     <- (net_earnings * fte_vec) / 1000000
   inc_tax_nics_vec <- (inc_tax_nics * fte_vec) / 1000000
 
+  ## adjust for inflation
+  output_vec <- output_vec * infl_adjust
+  gva_vec <- gva_vec * infl_adjust
+  tax_vec <- tax_vec * infl_adjust
+  earn_vec <- earn_vec * infl_adjust
+  net_earn_vec <- net_earn_vec * infl_adjust
+  inc_tax_nics_vec <- inc_tax_nics_vec * infl_adjust
+
   type0_effects <- cbind(products, output_vec, gva_vec, tax_vec, fte_vec, earn_vec, net_earn_vec, inc_tax_nics_vec)
   setDT(type0_effects)
   setnames(type0_effects, "output_to_supply", "tax_vec")
@@ -131,6 +149,14 @@ EconImpactCalc <- function(year = 2020,
   net_earn_vec     <- (net_earnings * fte_vec) / 1000000
   inc_tax_nics_vec <- (inc_tax_nics * fte_vec) / 1000000
 
+  ## adjust for inflation
+  output_vec <- output_vec * infl_adjust
+  gva_vec <- gva_vec * infl_adjust
+  tax_vec <- tax_vec * infl_adjust
+  earn_vec <- earn_vec * infl_adjust
+  net_earn_vec <- net_earn_vec * infl_adjust
+  inc_tax_nics_vec <- inc_tax_nics_vec * infl_adjust
+
   type1_effects <- cbind(products, output_vec, gva_vec, tax_vec, fte_vec, earn_vec, net_earn_vec, inc_tax_nics_vec)
   setDT(type1_effects)
   #setnames(type1_effects, "output_to_supply", "tax_vec")
@@ -166,6 +192,14 @@ EconImpactCalc <- function(year = 2020,
   earn_vec         <- (gross_earnings * fte_vec) / 1000000
   net_earn_vec     <- (net_earnings * fte_vec) / 1000000
   inc_tax_nics_vec <- (inc_tax_nics * fte_vec) / 1000000
+
+  ## adjust for inflation
+  output_vec <- output_vec * infl_adjust
+  gva_vec <- gva_vec * infl_adjust
+  tax_vec <- tax_vec * infl_adjust
+  earn_vec <- earn_vec * infl_adjust
+  net_earn_vec <- net_earn_vec * infl_adjust
+  inc_tax_nics_vec <- inc_tax_nics_vec * infl_adjust
 
   type2_effects <- cbind(products, output_vec, gva_vec, tax_vec, fte_vec, earn_vec, net_earn_vec, inc_tax_nics_vec)
   setDT(type2_effects)

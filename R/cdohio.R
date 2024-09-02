@@ -5,6 +5,7 @@
 #'
 #' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use.
 #' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param base Numeric. Base year to use for inflation adjustment - default is 2020.
 #' @param reallocate_prop Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.
 #' @param excluded_products Character vector. Products to exclude from reallocation. The products excluded can be any from
 #' c("alcohol","tobacco","food","gambling") - default is to exclude all four categories.
@@ -33,6 +34,7 @@
 #' }
 cdohio <- function(year = 2020,
                    year_io = 2020,
+                   base = 2020,
                    reallocate_prop = 1.00,
                    excluded_products = NULL,
                    change_food = rep(0, 19),
@@ -77,6 +79,7 @@ cdohio <- function(year = 2020,
 
   impacts <- EconImpactCalc(year = year,
                             year_io = year_io,
+                            base = base,
                             input_vector = demand,
                             alcohol_tax = scenario$alc_tax,
                             tobacco_tax = scenario$tob_tax)

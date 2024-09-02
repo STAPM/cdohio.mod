@@ -7,6 +7,7 @@
 cdohio(
   year = 2020,
   year_io = 2020,
+  base = 2020,
   reallocate_prop = 1,
   excluded_products = NULL,
   change_food = rep(0, 19),
@@ -20,6 +21,8 @@ cdohio(
 \item{year}{Numeric. Year of expenditure, tax, and labour market outcomes data to use.}
 
 \item{year_io}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.}
+
+\item{base}{Numeric. Base year to use for inflation adjustment - default is 2020.}
 
 \item{reallocate_prop}{Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.}
 

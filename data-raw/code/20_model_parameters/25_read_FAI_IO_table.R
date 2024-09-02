@@ -1,6 +1,6 @@
 #### FAI Alcohol-disaggregated input-output table ####
 
-source("src/03_load_packages.R")
+source("data-raw/code/03_load_packages.R")
 
 sheet <- "Sheet1"
 
@@ -14,7 +14,7 @@ temp <- curl_download(url = url, destfile = temp, quiet = FALSE, mode = "wb")
 ###################################################
 ### Read in the required elements of the table ####
 
-### Read in sector names 
+### Read in sector names
 
 sector <- read_excel(temp,
                      sheet = sheet,
@@ -22,7 +22,7 @@ sector <- read_excel(temp,
                      col_names = FALSE) %>%
   dplyr::rename(IOC = `...1`,
                 Sector = `...2`) %>% as_tibble
-  
+
 
 ### Read in the flowtable
 
@@ -31,7 +31,7 @@ flowtable <- read_excel(temp,
                         range = "D6:DE111",
                         col_names = FALSE) %>% as.matrix
 
-#### Read in household demand 
+#### Read in household demand
 
 hhold.demand <- read_excel(temp,
                            sheet = sheet,
@@ -52,7 +52,7 @@ gva.coe <- read_excel(temp,
                       range = "D117:DE117",
                       col_names = FALSE) %>% as.matrix %>% as.vector
 
-#### Read in total output 
+#### Read in total output
 
 total.output <- read_excel(temp,
                            sheet = sheet,
@@ -75,7 +75,7 @@ A <- flowtable %*% ((total.output )^-1 * diag(length(total.output)))
 
 L1 <- solve(diag(length(total.output)) - A)
 
-## Leontief for direct effects - an identity matrix 
+## Leontief for direct effects - an identity matrix
 
 L0 <- diag(length(total.output))
 
