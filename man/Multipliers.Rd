@@ -4,10 +4,10 @@
 \alias{Multipliers}
 \title{Multipliers}
 \usage{
-Multipliers(year = 2020)
+Multipliers(year_io = 2020)
 }
 \arguments{
-\item{year}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.}
+\item{year_io}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.}
 }
 \value{
 A data table of multipliers

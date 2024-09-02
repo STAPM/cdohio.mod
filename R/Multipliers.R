@@ -3,7 +3,7 @@
 #' Calculate multipliers for a selected year of input-output product by product tables to show the change in output and
 #' gross value added (GVA) for a one-unit change in final demand.
 #'
-#' @param year Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
 #'
 #' @return A data table of multipliers
 #' @export
@@ -13,22 +13,22 @@
 #' \dontrun{
 #'
 #' }
-Multipliers <- function(year = 2020){
+Multipliers <- function(year_io = 2020){
 
   ###############################################
   ### extract the selected input-output table ###
   ###############################################
 
-  if (year == 2017){
+  if (year_io == 2017){
     inputoutput <- cdohio.mod::inputoutput_2017
   }
-  if (year == 2018){
+  if (year_io == 2018){
     inputoutput <- cdohio.mod::inputoutput_2018
   }
-  if (year == 2019){
+  if (year_io == 2019){
     inputoutput <- cdohio.mod::inputoutput_2019
   }
-  if (year == 2020){
+  if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
 

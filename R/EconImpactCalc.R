@@ -191,8 +191,8 @@ EconImpactCalc <- function(year = 2020,
                          inc_tax_nics_vec = sum(inc_tax_nics_vec)), by = "type"]
 
   return(list(effects = effects,
-              type0_effects = type0_effects,
-              type1_effects = type1_effects,
-              type2_effects = type2_effects))
+              type0_effects_by_product = type0_effects,
+              type1_effects_by_product = type1_effects,
+              type2_effects_by_product = type2_effects))
 
 }
