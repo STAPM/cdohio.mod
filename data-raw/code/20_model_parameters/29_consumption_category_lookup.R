@@ -24,6 +24,6 @@ cpa_categories <- read_excel("data-raw/data/supublicationtablesbb23v2.xlsx",
                      sheet = "Table 1 - Supply 2017",
                      range = "A3:B108",
                      col_names = TRUE) %>%
-  rename(`CPA` = `...1`)
+  rename(`CPA` = `...1`) %>% setDT()
 
 usethis::use_data(cpa_categories, overwrite = TRUE)
