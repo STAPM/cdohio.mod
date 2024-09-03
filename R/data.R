@@ -29,7 +29,19 @@
 #'   \item{code}{COICOP household expenditure category code}
 #'   \item{label}{Description}
 #' }
-"coicop"
+"coicop_categories"
+
+#' CPA Product Categories
+#'
+#' A lookup table of the 105 product categories used in the input-output analytical tables
+#'
+#' @format
+#' A data frame with 105 rows and 2 columns:
+#' \describe{
+#'   \item{CPA}{CPA product code}
+#'   \item{Product}{Product description}
+#' }
+"cpa_categories"
 
 #' Alcohol Expenditure
 #'

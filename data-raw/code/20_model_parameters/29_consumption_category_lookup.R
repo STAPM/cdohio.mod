@@ -2,9 +2,10 @@
 
 source("data-raw/code/03_load_packages.R")
 
+################################################################################
 ##  Classification of Individual Consumption According to Purpose (COICOP)
 
-coicop <- read_excel("data-raw/data/supublicationtablesbb23v2.xlsx",
+coicop_categories <- read_excel("data-raw/data/supublicationtablesbb23v2.xlsx",
                      sheet = "Table 3 - HHFCe 2017",
                      range = "C3:AL4",
                      col_names = FALSE) %>%
@@ -14,4 +15,15 @@ coicop <- read_excel("data-raw/data/supublicationtablesbb23v2.xlsx",
   mutate(names = 1:36) %>%
   rename(index = names)
 
-usethis::use_data(coicop, overwrite = TRUE)
+usethis::use_data(coicop_categories, overwrite = TRUE)
+
+################################################################################
+## CPA categories in the Product by Product IOATs
+
+cpa_categories <- read_excel("data-raw/data/supublicationtablesbb23v2.xlsx",
+                     sheet = "Table 1 - Supply 2017",
+                     range = "A3:B108",
+                     col_names = TRUE) %>%
+  rename(`CPA` = `...1`)
+
+usethis::use_data(cpa_categories, overwrite = TRUE)

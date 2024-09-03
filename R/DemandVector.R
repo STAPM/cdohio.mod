@@ -16,7 +16,7 @@
 #' in basic prices
 #' @param consumption_category Numeric integer. Takes on a value of 1-36 or NULL (default). If NULL, reallocated spending is
 #' distributed on a pro-rata basis across the aggregate distribution of consumption across all 36 consumption categories. If
-#' a value is specified, all consumption is allocated to the respective consumption category (See `cdohio.mod::coicop` for an
+#' a value is specified, all consumption is allocated to the respective consumption category (See `cdohio.mod::coicop_categories` for an
 #' index of the 36 consumption category). Note that this overrides any
 #' restrictions imposed by `excluded_products` e.g. if "alcohol" is specified but `consumption_category` is set equal to 3
 #' (alcoholic beverages), all expenditure will be reallocated to alcoholic beverages.
