@@ -14,6 +14,12 @@
 #' tobacco in basic prices, and illicit tobacco
 #' @param alcohol_vec Numeric vector. Change in demand for all alcohol (2) - all alcohol in purchaser prices, and all alcohol
 #' in basic prices
+#' @param consumption_category Numeric integer. Takes on a value of 1-36 or NULL (default). If NULL, reallocated spending is
+#' distributed on a pro-rata basis across the aggregate distribution of consumption across all 36 consumption categories. If
+#' a value is specified, all consumption is allocated to the respective consumption category (See `cdohio.mod::coicop` for an
+#' index of the 36 consumption category). Note that this overrides any
+#' restrictions imposed by `excluded_products` e.g. if "alcohol" is specified but `consumption_category` is set equal to 3
+#' (alcoholic beverages), all expenditure will be reallocated to alcoholic beverages.
 #'
 #' @return A vector of length 105
 #' @export
@@ -30,7 +36,8 @@ DemandVector <- function(year_io = 2020,
                          food_vec,
                          gambling_vec,
                          tobacco_vec,
-                         alcohol_vec){
+                         alcohol_vec,
+                         consumption_category = NULL){
 
   ###############################################
   ### extract the selected input-output table ###
@@ -178,6 +185,19 @@ DemandVector <- function(year_io = 2020,
     hhfce_vector <- copy(hhfce_vector_noalctobfood)
   }
 
+  #############################################################################
+  #### Override the reallocation vector and product exclusion criteria
+  #### if the option to reallocate to a single
+  #### COICOP category rather than pro-rata is selected.
+
+  if (!is.null(consumption_category)){
+
+    i <- consumption_category
+
+    hhfce_vector <- rep(0, 36)
+    hhfce_vector[i] <- 1
+  }
+
   #####################################################################
   ### produce the input vector of change in demand for 105 products ###
   #####################################################################
@@ -185,7 +205,8 @@ DemandVector <- function(year_io = 2020,
   scenario <- c(food_vec, gambling_vec, tobacco_vec, alcohol_vec)
 
   #####################################################################################
-  ### convert food + gambling to basic prices (alcohol and tobacco are already done)
+  ### convert food + gambling to basic prices (alcohol and tobacco are already done
+  ### manually as the combined alcohol+tobacco category in the IO tables is inaccurate)
 
   food_meat_bp           <-   (scenario["meat"]                * as.numeric(inputoutput$supply[Product == "Preserved meat and meat products","supply_to_output"]) )
   food_fish_fruit_veg_bp <-   (scenario["fish_fruit_and_veg"]  * as.numeric(inputoutput$supply[Product == "Processed and preserved fish, crustaceans, molluscs, fruit and vegetables","supply_to_output"]) )

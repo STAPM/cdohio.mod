@@ -16,6 +16,21 @@
 #' }
 "cpa_conversion_matrix"
 
+#' Classification of Individual Consumption According to Purpose
+#'
+#' The Classification of Individual Consumption According to Purpose (COICOP) is a 36-category
+#' classification of household expenditures. It is mapped onto the 105 CPA product categories in the
+#' supply and use table and is used as the basis for reallocation of spending in the model.
+#'
+#' @format
+#' A data frame with 36 rows and 3 columns:
+#' \describe{
+#'   \item{index}{Position of the COICOP category in the vector}
+#'   \item{code}{COICOP household expenditure category code}
+#'   \item{label}{Description}
+#' }
+"coicop"
+
 #' Alcohol Expenditure
 #'
 #' Data on expenditure on beer, cider, wine, and spirits between 2010 and 2021. Expenditure data are

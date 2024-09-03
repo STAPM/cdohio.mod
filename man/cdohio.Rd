@@ -15,7 +15,8 @@ cdohio(
   change_tobacco_licit = rep(0, 2),
   change_tobacco_illicit = rep(0, 2),
   change_alcohol = rep(0, 4),
-  reallocate_food = NULL
+  reallocate_food = NULL,
+  consumption_category = NULL
 )
 }
 \arguments{
@@ -54,6 +55,13 @@ Select one of the seven food categories in the input-output model to reallocate 
 on food to; (1) meat and meat products (2) fish, fruit, and vegetables (3) oils and fats (4) dairy
 products (5) grains and starch (6) bakery and farinaceous products (7) other food products. (Default value
 is `NULL` which means no reallocation across food categories).}
+
+\item{consumption_category}{Numeric integer. Takes on a value of 1-36 or NULL (default). If NULL, reallocated spending is
+distributed on a pro-rata basis across the aggregate distribution of consumption across all 36 consumption categories. If
+a value is specified, all consumption is allocated to the respective consumption category (See `cdohio.mod::coicop` for an
+index of the 36 consumption category). Note that this overrides any
+restrictions imposed by `excluded_products` e.g. if "alcohol" is specified but `consumption_category` is set equal to 3
+(alcoholic beverages), all expenditure will be reallocated to alcoholic beverages.}
 }
 \value{
 List object
