@@ -25,6 +25,12 @@
 #' illicit tobacco product categories (cigarettes, handrolled tobacco)
 #' @param change_alcohol Numeric vector. Percentage change in expenditure on 4 alcohol
 #' product categories (beer, cider, spirits, wine)
+#' @param reallocate_food Numeric. Reallocating changed expenditure on food to other food categories.
+#' Select one of the seven food categories in the input-output model to reallocate the changed spending
+#' on food to; (1) meat and meat products (2) fish, fruit, and vegetables (3) oils and fats (4) dairy
+#' products (5) grains and starch (6) bakery and farinaceous products (7) other food products. (Default value
+#' is `NULL` which means no reallocation across food categories).
+#'
 #'
 #' @return A list object
 #' @export
@@ -35,11 +41,12 @@
 #'
 #' }
 GenExpenditure <- function(year,
-                           change_food = rep(0.1,19),
-                           change_gambling = rep(0.1,9),
-                           change_tobacco_licit = rep(0.1,2),
-                           change_tobacco_illicit = rep(0.1,2),
-                           change_alcohol = rep(0.1,4)){
+                           change_food =            rep(0,19),
+                           change_gambling =        rep(0,9),
+                           change_tobacco_licit =   rep(0,2),
+                           change_tobacco_illicit = rep(0,2),
+                           change_alcohol =         rep(0,4),
+                           reallocate_food = NULL){
 
   y <- copy(year)
 
@@ -64,6 +71,18 @@ GenExpenditure <- function(year,
 
   names(food_vec) <- c("meat","fish_fruit_and_veg","oils_and_fats","dairy",
                        "grains_and_starch","bakery","other_food")
+
+  ## reallocate change in spending on food to the selected category
+
+  if (!is.null(reallocate_food)){
+
+    j <- reallocate_food
+
+    food_exp_all_reallocate <- -1*sum(food_vec)
+
+    food_vec[j] <- food_vec[j] + food_exp_all_reallocate
+
+  }
 
   #########################################
   #### Changes in gambling expenditure
