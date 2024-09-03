@@ -64,11 +64,31 @@ restrictions imposed by `excluded_products` e.g. if "alcohol" is specified but `
 (alcoholic beverages), all expenditure will be reallocated to alcoholic beverages.}
 }
 \value{
-List object
+List object with the following elements:
+
+\describe{
+  \item{`expenditure_change`}{Change in expenditure in £millions}
+  \item{`final_demand`}{Modelled vector of final demand changes across 105 products}
+  \item{`effects`}{Aggregate economic impacts - direct, indirect, and induced}
+  \item{`type0_effects_by_product`}{direct economic impacts for each product}
+  \item{`type1_effects_by_product`}{direct + indirect economic impacts for each product}
+  \item{`type2_effects_by_product`}{direct + indirect + induced economic impacts for each product}
+  \item{`multipliers`}{type1 and type2 multipliers for output and gross value added}
+}
 }
 \description{
 A wrapper function to produce input-output analysis of the effects on the UK
-economy of changes in the demand
+economy of changes in the demand for combinations of alcohol, tobacco, food, and gambling. The model estimates
+the impact of changes in final demand for unhealthy commodities, and the resulting changes in demand for other products,
+on output, gross value added, employment, government tax receipts, and aggregate household earnings.
+}
+\details{
+Using publicly available data sources on expenditures on alcohol, tobacco, food, and gambling, the model
+(i) calculates changes in expenditures at purchaser prices for user-specified proportionate changes in
+expenditure, (ii) reallocates spending to other products according to user-specified options, (iii) converts
+expenditures on all products from purchaser prices to basic prices by subtracting tax and imports, (iv) applies
+the selected input-output to the resulting changes in demand in basic prices, and (v) estimates the consequent
+economic outcomes.
 }
 \examples{
 
