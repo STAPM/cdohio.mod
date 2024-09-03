@@ -83,3 +83,13 @@ food_expenditure <- food_expenditure[, c("year","food_category","cpa","exp_food_
 
 usethis::use_data(food_expenditure, overwrite = TRUE)
 
+#################################################
+### create a lookup table of food categories
+
+food_cat_lookup <- copy(food_expenditure)
+
+food_cat_lookup <- food_cat_lookup[year == 2015]
+food_cat_lookup[, c("year","exp_food_mn") := NULL]
+
+usethis::use_data(food_cat_lookup, overwrite = TRUE)
+

@@ -50,6 +50,20 @@
 #' @source \href{https://www.gov.uk/government/statistical-data-sets/family-food-datasets}{ONS Family Food Datasets}
 "food_expenditure"
 
+#' Food Categories
+#'
+#' Lookup table showing the correspondence between the 19 Family Food categories of Food and the
+#' 7 categories in the input-output analytical tables.
+#'
+#' @format
+#' A data frame with 19 rows and 2 columns:
+#' \describe{
+#'   \item{food_category}{one of 19 categories of food consumption}
+#'   \item{cpa}{CPA product category in the input-output model}
+#' }
+#' @source \href{https://www.gov.uk/government/statistical-data-sets/family-food-datasets}{ONS Family Food Datasets}
+"food_cat_lookup"
+
 
 #' Gambling Expenditure Data
 #'
