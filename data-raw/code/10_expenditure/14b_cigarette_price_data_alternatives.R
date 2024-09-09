@@ -1,6 +1,6 @@
 #### Explore different sources of tobacco price data ####
 
-source("src/03_load_packages.R")
+source("data-raw/code/03_load_packages.R")
 
 #### Cigarette prices (i)
 ####
@@ -8,7 +8,7 @@ source("src/03_load_packages.R")
 #### https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/czmp
 
 # Annual data on average price for 20 pack of king size filter cigarettes from ONS
-ave_price_cigarettes_20pack_1 <- read_xls(path = "data/raw/Tobacco_Price_Cigs_20_king_size.xls",
+ave_price_cigarettes_20pack_1 <- read_xls(path = "data-raw/data/Tobacco_Price_Cigs_20_king_size.xls",
                                           range = "A9:B45",
                                           col_names = F) %>% setDT
 
@@ -21,10 +21,10 @@ ave_price_cigarettes_20pack_1[, price_cigs_20pk_1 := price_cigs_20pk_1/100]
 #### CPI index for cigarettes (CPI index 02.2.0.1)
 #### https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7aq/mm23
 ####
-#### Use this to adjust the WAP for Jan 2019 (404.15*(20/1000) = 8.083) 
+#### Use this to adjust the WAP for Jan 2019 (404.15*(20/1000) = 8.083)
 #### used in Morris et al. 2024 (smoke-free dividend paper) OR 8.083
 
-ave_price_cigarettes_20pack_2 <- read_xls(path = "data/raw/Tobacco_Price_Cigs_CPI_Index.xls",
+ave_price_cigarettes_20pack_2 <- read_xls(path = "data-raw/data/Tobacco_Price_Cigs_CPI_Index.xls",
                                           range = "A9:B169",
                                           col_names = F) %>% setDT
 
@@ -40,12 +40,12 @@ ave_price_cigarettes_20pack_2[, price_cigs_20pk_2 := cpi_index * 8.083]
 
 ave_price_cigarettes_20pack_2 <- ave_price_cigarettes_20pack_2[, .(price_cigs_20pk_2 = mean(price_cigs_20pk_2)), by = "year"]
 
-#### (iii) right figure for WAP might be 8.83, use that 
+#### (iii) right figure for WAP might be 8.83, use that
 ####
-#### Use this to adjust the WAP for Jan 2019 (404.15*(20/1000)) 
-#### used in Morris et al. 2024 (smoke-free dividend paper) 
+#### Use this to adjust the WAP for Jan 2019 (404.15*(20/1000))
+#### used in Morris et al. 2024 (smoke-free dividend paper)
 
-ave_price_cigarettes_20pack_3 <- read_xls(path = "data/raw/Tobacco_Price_Cigs_CPI_Index.xls",
+ave_price_cigarettes_20pack_3 <- read_xls(path = "data-raw/data/Tobacco_Price_Cigs_CPI_Index.xls",
                                           range = "A9:B169",
                                           col_names = F) %>% setDT
 
@@ -67,17 +67,17 @@ ave_price_cigarettes_20pack_3 <- ave_price_cigarettes_20pack_3[, .(price_cigs_20
 #### reported biennially - interpolate the prices for off years
 #### https://apps.who.int/gho/data/node.main-eu.TOBRAISETAXES?lang=en
 
-ave_price_cigarettes_20pack_4 <- read_xlsx(path = "data/raw/Tobacco_Price_Cigs_WHO.xlsx",
+ave_price_cigarettes_20pack_4 <- read_xlsx(path = "data-raw/data/Tobacco_Price_Cigs_WHO.xlsx",
                                           range = "A1:AE29",
                                           col_names = TRUE) %>% setDT
 
 ave_price_cigarettes_20pack_4 <- ave_price_cigarettes_20pack_4[,c("...1",
-                                                                  "Most sold brand of cigarettes - price in currency reported...11",            
-                                                                  "Most sold brand of cigarettes - price in currency reported...12",             
-                                                                  "Most sold brand of cigarettes - price in currency reported...13",             
-                                                                  "Most sold brand of cigarettes - price in currency reported...14",             
-                                                                  "Most sold brand of cigarettes - price in currency reported...15",             
-                                                                  "Most sold brand of cigarettes - price in currency reported...16",             
+                                                                  "Most sold brand of cigarettes - price in currency reported...11",
+                                                                  "Most sold brand of cigarettes - price in currency reported...12",
+                                                                  "Most sold brand of cigarettes - price in currency reported...13",
+                                                                  "Most sold brand of cigarettes - price in currency reported...14",
+                                                                  "Most sold brand of cigarettes - price in currency reported...15",
+                                                                  "Most sold brand of cigarettes - price in currency reported...16",
                                                                   "Most sold brand of cigarettes - price in currency reported...17")]
 
 ave_price_cigarettes_20pack_4 <- ave_price_cigarettes_20pack_4[`...1` == "United Kingdom of Great Britain and Northern Ireland"]
@@ -94,12 +94,12 @@ ave_price_cigarettes_20pack_4 <- ave_price_cigarettes_20pack_4[, c("year","price
 
 fill <- data.table(year = 2008:2024)
 
-ave_price_cigarettes_20pack_4 <- merge(ave_price_cigarettes_20pack_4, fill, by = "year", all.y = TRUE) 
+ave_price_cigarettes_20pack_4 <- merge(ave_price_cigarettes_20pack_4, fill, by = "year", all.y = TRUE)
 
-ave_price_cigarettes_20pack_4[, price_cigs_20pk_4 := zoo::na.approx(price_cigs_20pk_4, na.rm = FALSE)] 
+ave_price_cigarettes_20pack_4[, price_cigs_20pk_4 := zoo::na.approx(price_cigs_20pk_4, na.rm = FALSE)]
 
 
-cig_price_cpi <- read_xls(path = "data/raw/Tobacco_Price_Cigs_CPI_Index.xls",
+cig_price_cpi <- read_xls(path = "data-raw/data/Tobacco_Price_Cigs_CPI_Index.xls",
                           range = "A9:B17",
                           col_names = F) %>% setDT
 setnames(cig_price_cpi, names(cig_price_cpi), c("year","cpi"))
@@ -149,4 +149,4 @@ cig_price_data[, year := as.numeric(year)]
 cig_price_data <- merge(cig_price_data, ave_price_cigarettes_20pack_4, by = "year", all = TRUE)
 cig_price_data <- merge(cig_price_data, ave_price_cigarettes_20pack_5, by = "year", all = TRUE)
 
-write.csv(cig_price_data,"data/raw/Tobacco_Price_Cigarettes_20pk.csv")
+write.csv(cig_price_data,"data-raw/data/Tobacco_Price_Cigarettes_20pk.csv")

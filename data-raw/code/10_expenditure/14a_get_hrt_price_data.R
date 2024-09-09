@@ -1,5 +1,7 @@
 ### download direct from the ONS price quotes data:
 
+source("data-raw/code/03_load_packages.R")
+
 # 320206 - Hand rolling tobacco pack 30gm
 
 id <- 320206
@@ -13,32 +15,32 @@ files <- c("https://www.ons.gov.uk/file?uri=/economy/inflationandpriceindices/da
            "https://www.ons.gov.uk/file?uri=/economy/inflationandpriceindices/datasets/consumerpriceindicescpiandretailpricesindexrpiitemindicesandpricequotes/pricequotesdecember2019/upload-pricequotes201912v1.csv")
 
 for (i in 1:length(files)){
-  
+
   m <- i + 8
   y <- 2019
-  
+
   temp <- tempfile()
   url <- files[i]
   temp <- curl_download(url=url, destfile=temp, quiet=FALSE, mode="wb")
-  
+
   prices <- read.csv(temp)
-  
+
   setDT(prices)
-  
+
   prices <- prices[ITEM_ID == id,]
-  
+
   prices <- prices[, .(price_hrt_30g = weighted.mean(PRICE, w = SHOP_WEIGHT))]
-  
+
   prices[, year := y]
   prices[, month := m]
-  
+
   if (i == 1){
     ave_price_hrt_30g <- copy(prices)
   } else {
     ave_price_hrt_30g <- rbindlist(list(ave_price_hrt_30g, prices))
   }
-  
-  
+
+
 }
 
 
@@ -1096,14 +1098,14 @@ ave_price_hrt_30g <- rbindlist(list(ave_price_hrt_30g, prices))
 
 ave_price_hrt_30g <- ave_price_hrt_30g[, .(price_hrt_30g_1 = mean(price_hrt_30g)), by = "year"]
 
-write.csv(ave_price_hrt_30g,"data/raw/Tobacco_Price_HRT_30g.csv")
+write.csv(ave_price_hrt_30g,"data-raw/data/Tobacco_Price_HRT_30g.csv")
 
 ####################################################
 ###### STAPM HRT PRICE DATA ########################
 
-### Use CPI inflation series CPI Index 02.2.0.3 Other tobacco products 
+### Use CPI inflation series CPI Index 02.2.0.3 Other tobacco products
 
-hrt_price_cpi <- read_xls(path = "data/raw/Tobacco_Price_HRT_CPI_Index.xls",
+hrt_price_cpi <- read_xls(path = "data-raw/data/Tobacco_Price_HRT_CPI_Index.xls",
                           range = "A9:B17",
                           col_names = F) %>% setDT
 setnames(hrt_price_cpi, names(hrt_price_cpi), c("year","cpi"))
@@ -1119,7 +1121,7 @@ index_2023 <- 1 + ((as.numeric(hrt_price_cpi[year == 2023, "cpi"]) - as.numeric(
 #### (v) STAPM TAX-sim 2.5.0
 ####
 #### STAPM modelling control arm B price for 2017, then uprated using the cigarette CPI
-#### The mean price of HRT in the STAPM model is 
+#### The mean price of HRT in the STAPM model is
 #### 0.163891207067166 per stick (0.5g) = 9.83 per 30g pack
 
 ave_price_hrt_30g <- data.table(year = 2017:2023,
@@ -1132,7 +1134,7 @@ ave_price_hrt_30g <- data.table(year = 2017:2023,
                                                     9.83*index_2018*index_2019*index_2020*index_2021*index_2022*index_2023))
 
 
-write.csv(ave_price_hrt_30g,"data/raw/Tobacco_Price_HRT_STAPM_30g.csv")
+write.csv(ave_price_hrt_30g,"data-raw/data/Tobacco_Price_HRT_STAPM_30g.csv")
 
 
 

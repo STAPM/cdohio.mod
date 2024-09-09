@@ -30,7 +30,7 @@ Total licit spending data are constructed by calculating the percentage of
 the retail price for tobacco products which is made up of duty. These figures are then used to adjust
 total duty receipts data from the \href{https://www.gov.uk/government/statistics/tobacco-bulletin}{HMRC Tobacco Bulletin} to
 a figure for total expenditure. Data on prices were obtained from \href{https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/consumerpriceindicescpiandretailpricesindexrpiitemindicesandpricequotes}{ONS consumer price inflation price quotes}
-data for HRT, and from the Sheffield Tobacco and Alcohol Policy Model (STAPM) for cigarettes in 2017 adjusted for other years using the
+data for HRT, and from the \href{https://apps.who.int/gho/data/view.main.TOBRETAILv}{World Health Organisation} for cigarettes in 2017 adjusted for other years using the
 \href{https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7aq/mm23}{CPI index for cigarettes}.
 
 Illicit spending is calculated using estimates of the total volume of illicit tobacco published by HMRC in the \href{https://www.gov.uk/government/statistics/measuring-tax-gaps-tables}{measuring tax gaps tables}.

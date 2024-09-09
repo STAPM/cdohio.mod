@@ -4,8 +4,11 @@ source("data-raw/code/03_load_packages.R")
 
 ### Arguments
 
-cig_price_opt <- 5 #(use STAPM prices)
+cig_price_opt <- 4 #(use WHO prices)
 hrt_price_opt <- 1 #(ONS price quotes)
+
+#source("data-raw/code/10_expenditure/14a_get_hrt_price_data.R")
+#source("data-raw/code/10_expenditure/14b_cigarette_price_data_alternatives.R")
 
 ### Data needed:
 
@@ -79,7 +82,7 @@ rm(tobacco_duty_rates_2019, tobacco_duty_rates_2022)
 
 #### Cigarette prices
 ####
-#### Multiple data sources. Defaulting to using the STAPM mean prices
+#### Multiple data sources. Defaulting to using WHO price of most commonly purchased brand
 ####
 #### (i) RPI Ave price 20 super king, (ii) Morris et al. (2024), (iii) EU Commission,
 #### (iv) World Health Organisation, (v) STAPM
