@@ -70,3 +70,7 @@ syntax.
 ## Citation
 
 Please cite the latest version of the package using:
+
+Morris D., Gillespie D., James M., Breeze P., Brennan A. cdohio.mod:
+Commercial Determinants of Health Input-Output Model (CDOHIO) R Package;
+2024. URL: <https://osf.io/9f5ud/> DOI: 10.17605/OSF.IO/9F5UD
