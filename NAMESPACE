@@ -3,6 +3,7 @@
 export(DemandVector)
 export(EconImpactCalc)
 export(GenExpenditure)
+export(InputExpenditure)
 export(Multipliers)
 export(TaxCalc)
 export(cdohio)

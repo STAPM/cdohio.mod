@@ -12,9 +12,9 @@
 #' the selected input-output to the resulting changes in demand in basic prices, and (v) estimates the consequent
 #' economic outcomes.
 #'
-#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use.
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
-#' @param base Numeric. Base year to use for inflation adjustment - default is 2020.
+#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2019.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
+#' @param base Numeric. Base year to use for inflation adjustment - default is 2019.
 #' @param reallocate_prop Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.
 #' @param excluded_products Character vector. Products to exclude from reallocation. The products excluded can be any from
 #' c("alcohol","tobacco","food","gambling") - default is to exclude all four categories.
@@ -63,9 +63,9 @@
 #' \dontrun{
 #'
 #' }
-cdohio <- function(year = 2020,
-                   year_io = 2020,
-                   base = 2020,
+cdohio <- function(year = 2019,
+                   year_io = 2019,
+                   base = 2019,
                    reallocate_prop = 1.00,
                    excluded_products = NULL,
                    change_food = rep(0, 19),
@@ -127,8 +127,8 @@ cdohio <- function(year = 2020,
 
   multipliers <- Multipliers(year_io = year_io)
 
-  ##############################
-  #### Return ##################
+  ################
+  #### Return ####
 
   return(list(expenditure_change = expenditure_change,
               final_demand = final_demand,

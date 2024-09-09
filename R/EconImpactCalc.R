@@ -4,9 +4,9 @@
 #' impacts on output, gross value added, tax receipts to government, employment, and earnings. Three types of effect are
 #' reported - the direct effects, direct + indirect effects, and direct + indirect + induced effects.
 #'
-#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use.
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
-#' @param base Numeric. Base year to use for inflation adjustment - default is 2020.
+#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2019.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
+#' @param base Numeric. Base year to use for inflation adjustment - default is 2019.
 #' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices.
 #' @param alcohol_tax Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.
 #' @param tobacco_tax Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.
@@ -19,9 +19,9 @@
 #' \dontrun{
 #'
 #' }
-EconImpactCalc <- function(year = 2020,
-                           year_io = 2020,
-                           base = 2020,
+EconImpactCalc <- function(year = 2019,
+                           year_io = 2019,
+                           base = 2019,
                            input_vector,
                            alcohol_tax = 0,
                            tobacco_tax = 0){
@@ -226,6 +226,9 @@ EconImpactCalc <- function(year = 2020,
                             type1_effects_aggregate,
                             type2_effects_aggregate))
 
+  #############################
+  #### aggregate effects
+
   effects <- effects[, .(output_vec = sum(output_vec),
                          gva_vec = sum(gva_vec),
                          tax_vec = sum(tax_vec),
@@ -234,7 +237,60 @@ EconImpactCalc <- function(year = 2020,
                          net_earn_vec = sum(net_earn_vec),
                          inc_tax_nics_vec = sum(inc_tax_nics_vec)), by = "type"]
 
+  #################################
+  #### aggregate effects (%)
+
+  ## to estimate % of totals, adjust the figures in the effects table for inflation to the year
+  ## of the input-output table used. For employment, use the employment data for the input-output table
+  ## year also
+
+  infl_adjust2 <- as.numeric(cdohio.mod::rpi[year == year_io,"rpi_index"]) / as.numeric(cdohio.mod::rpi[year == base,"rpi_index"])
+
+  effects_pct <- copy(effects)
+
+  effects_pct[, output_vec := output_vec * infl_adjust2]
+  effects_pct[, gva_vec := gva_vec * infl_adjust2]
+  effects_pct[, tax_vec := tax_vec * infl_adjust2]
+  effects_pct[, earn_vec := earn_vec * infl_adjust2]
+  effects_pct[, net_earn_vec := net_earn_vec * infl_adjust2]
+  effects_pct[, inc_tax_nics_vec := inc_tax_nics_vec * infl_adjust2]
+
+  ## get annual totals to calculate relative effects
+
+  inctax_year_ioat <- TaxCalc(earn_data = cdohio.mod::lfs_wage_data,
+                              tax_data = cdohio.mod::income_tax_params,
+                              year = year_io)
+
+  total_gross_earnings <- sum(inctax_year_ioat$earn)
+  total_net_earnings   <- sum(inctax_year_ioat$net_earn)
+  total_inc_tax_nics   <- sum(inctax_year_ioat$total_employee_tax)
+  total_tax            <- sum(inputoutput$tax_on_products) + sum(inputoutput$tax_on_production)
+  total_output         <- sum(inputoutput$output)
+  total_gva            <- sum(inputoutput$gva)
+
+  if (year_io == 2017){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2017"])
+  } else if (year_io == 2018){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2018"])
+  } else if (year_io == 2019){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2019"])
+  } else if (year_io == 2020){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2020"])
+  }
+
+  ## calculate the estimated relative effects
+
+  effects_pct[, output_vec := 100*(output_vec / total_output)]
+  effects_pct[, gva_vec := 100*(gva_vec / total_gva)]
+  effects_pct[, tax_vec := 100*(tax_vec / total_tax)]
+  effects_pct[, fte_vec := 100*(fte_vec / total_fte)]
+  effects_pct[, earn_vec := 100*(earn_vec / total_gross_earnings)]
+  effects_pct[, net_earn_vec := 100*(net_earn_vec / total_net_earnings)]
+  effects_pct[, inc_tax_nics_vec := 100*(inc_tax_nics_vec / total_inc_tax_nics)]
+
+
   return(list(effects = effects,
+              effects_pct = effects_pct,
               type0_effects_by_product = type0_effects,
               type1_effects_by_product = type1_effects,
               type2_effects_by_product = type2_effects))

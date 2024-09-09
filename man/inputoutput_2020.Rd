@@ -14,6 +14,10 @@ A list object with 12 items:
   \item{A}{the matrix of technical coefficients - the input-output table elements as a proportion of total output}
   \item{L}{the Leontief inverse (type 1)}
   \item{L2}{the Leontief inverse (type 2)}
+  \item{output}{total product output in basic prices (£mn)}
+  \item{gva}{gross value added (£mn)}
+  \item{tax_on_products}{taxes less subsidies on products (£mn)}
+  \item{tax_on_production}{taxes less subsidies on production (£mn)}
   \item{gva_coefficients}{Gross value added (GVA) as a proportion of total product output}
   \item{tax_coefficients}{Net tax on production as a proportion of total product output}
   \item{coe_coefficients}{Compensation of employees as a proportion of total product output}

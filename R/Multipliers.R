@@ -1,9 +1,9 @@
-#' Multipliers
+#' Generate Multipliers
 #'
 #' Calculate multipliers for a selected year of input-output product by product tables to show the change in output and
 #' gross value added (GVA) for a one-unit change in final demand.
 #'
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2020.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
 #'
 #' @return A data table of multipliers
 #' @export
@@ -13,7 +13,7 @@
 #' \dontrun{
 #'
 #' }
-Multipliers <- function(year_io = 2020){
+Multipliers <- function(year_io = 2019){
 
   ###############################################
   ### extract the selected input-output table ###

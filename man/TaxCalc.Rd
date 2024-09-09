@@ -7,7 +7,7 @@
 TaxCalc(
   earn_data = cdohio.mod::lfs_wage_data,
   tax_data = cdohio.mod::income_tax_params,
-  year
+  year = 2019
 )
 }
 \arguments{
@@ -16,7 +16,7 @@ TaxCalc(
 \item{tax_data}{Data table. Package data containing the necessary parameters to calculate
 income tax and national insurance contributions from annual earnings data}
 
-\item{year}{Integer. Select the year (from 2016 to 2022) of earnings and employment data to use in the analysis.}
+\item{year}{Integer. Select the year (from 2016 to 2022) of earnings and employment data to use in the analysis - default is 2019.}
 }
 \value{
 Data table of earnings and tax impact estimates

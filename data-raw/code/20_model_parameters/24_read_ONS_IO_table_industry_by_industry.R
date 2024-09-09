@@ -37,7 +37,7 @@ coe_coefficient_i_by_i <- i_by_i_table_coe / i_by_i_table_output
 ### Get employment/COE ratio:
 ### multiply by 2020 employment/coe ratio to get the employment coefficients
 
-source("data-raw/code/20_model_parameters/21_labour_force_survey_employment.R")
+source("data-raw/code/20_model_parameters/21b_lfs_employment_for_multipliers.R")
 
 emp <- as.vector(as.matrix( lfs_empl[,"tot_emp"] ))
 fte <- as.vector(as.matrix( lfs_empl[,"tot_fte"] ))

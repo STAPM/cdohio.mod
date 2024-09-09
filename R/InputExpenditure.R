@@ -1,7 +1,9 @@
-#' Calculate Demand Changes
+#' Input Demand Changes
 #'
-#' Generate changes in demand for alcohol, tobacco, gambling, and food using the
-#' saved expenditure data for the four product types in the model.
+#' Directly input changes in demand for alcohol, tobacco, gambling. This function is used to directly
+#' input changes in the demand for the unhealthy commodities for which the model calculates economic
+#' impact analyses. Use the `GenExpenditure` function to calculate inputs as proportionate changes using
+#' the expenditure data saved to the model.
 #'
 #' Note that for alcohol and tobacco this function also calculates changes in demand in basic prices as well as
 #' in purchaser prices. As alcohol and tobacco are combined in the model, and have very different levels of taxation
@@ -11,19 +13,19 @@
 #' accounted for in the model.
 #'
 #' @param year Numeric integer. Year of expenditure data to use - default is 2019.
-#' @param change_food Numeric integer. Percentage change in expenditure on 19 categories of food;
+#' @param change_food Numeric integer. Absolute change in expenditure (£mn) on 19 categories of food;
 #' 1. Milk, 2. Cheese, 3. Carcase meat, 4. Non-carcase meat and meat products, 5. Fish, 6. Eggs,
 #' 7. Fats, 8. Sugar and preserves, 9. Potatoes, 10. Fruit and veg, 11. Bread, 12. Flour, 13. Cakes, buns, and pastries,
 #' 14. Biscuits and crispbreads, 15. Cereals and cereal products, 16. Beverages, 17. Other food and drink, 18. Soft drinks,
 #' 19. Confectionary.
-#' @param change_gambling Numeric integer. Percentage change in expenditure (gross gambling yield) on 9
+#' @param change_gambling Numeric integer. Absolute change in expenditure (£mn) (gross gambling yield) on 9
 #' gambling categories (arcades, betting (non-remote), bingo (non-remote), casino (non-remote),
 #' betting (remote), bingo (remote), casino (remote), lotteries, the National Lottery)
-#' @param change_tobacco_licit Numeric vector. Percentage change in expenditure on 2
+#' @param change_tobacco_licit Numeric vector. Absolute change in expenditure (£mn) on 2
 #' licit tobacco product categories (cigarettes, handrolled tobacco)
-#' @param change_tobacco_illicit Numeric vector. Percentage change in expenditure on 2
+#' @param change_tobacco_illicit Numeric vector. Absolute change in expenditure (£mn) on 2
 #' illicit tobacco product categories (cigarettes, handrolled tobacco)
-#' @param change_alcohol Numeric vector. Percentage change in expenditure on 4 alcohol
+#' @param change_alcohol Numeric vector. Absolute change in expenditure (£mn) on 4 alcohol
 #' product categories (beer, cider, spirits, wine)
 #' @param reallocate_food Numeric. Reallocating changed expenditure on food to other food categories.
 #' Select one of the seven food categories in the input-output model to reallocate the changed spending
@@ -40,13 +42,13 @@
 #' \dontrun{
 #'
 #' }
-GenExpenditure <- function(year = 2019,
-                           change_food =            rep(0,19),
-                           change_gambling =        rep(0,9),
-                           change_tobacco_licit =   rep(0,2),
-                           change_tobacco_illicit = rep(0,2),
-                           change_alcohol =         rep(0,4),
-                           reallocate_food = NULL){
+InputExpenditure <- function(year = 2019,
+                             change_food =            rep(0,19),
+                             change_gambling =        rep(0,9),
+                             change_tobacco_licit =   rep(0,2),
+                             change_tobacco_illicit = rep(0,2),
+                             change_alcohol =         rep(0,4),
+                             reallocate_food = NULL){
 
   y <- copy(year)
 
@@ -55,9 +57,7 @@ GenExpenditure <- function(year = 2019,
 
   food_data <- cdohio.mod::food_expenditure[year == y,]
 
-  food_data[, pct_change := change_food]
-
-  food_data[, exp_change := ((1 + pct_change) * exp_food_mn) - exp_food_mn]
+  food_data[, exp_change := change_food]
 
   food_data <- food_data[, .(exp_change = sum(exp_change)), by = "cpa"]
 
@@ -89,9 +89,7 @@ GenExpenditure <- function(year = 2019,
 
   gambling_data <- cdohio.mod::gambling_expenditure[year == y,]
 
-  gambling_data[, pct_change := change_gambling]
-
-  gambling_data[, exp_change := ((1 + pct_change) * ggy_mn) - ggy_mn]
+  gambling_data[, exp_change := change_gambling]
 
   gambling_data <- gambling_data[, .(exp_change = sum(exp_change))]
 
@@ -111,15 +109,15 @@ GenExpenditure <- function(year = 2019,
   tobacco_data <- cdohio.mod::tobacco_expenditure[year == y,]
 
   ## get percentage changes
-  tobacco_data[tobacco_category == "cigarettes", pct_change_licit := change_tobacco_licit[1] ]
-  tobacco_data[tobacco_category == "cigarettes", pct_change_illicit := change_tobacco_illicit[1] ]
-  tobacco_data[tobacco_category == "hrt", pct_change_licit := change_tobacco_licit[2] ]
-  tobacco_data[tobacco_category == "hrt", pct_change_illicit := change_tobacco_illicit[2] ]
+  tobacco_data[tobacco_category == "cigarettes", change_licit := change_tobacco_licit[1] ]
+  tobacco_data[tobacco_category == "cigarettes", change_illicit := change_tobacco_illicit[1] ]
+  tobacco_data[tobacco_category == "hrt", change_licit := change_tobacco_licit[2] ]
+  tobacco_data[tobacco_category == "hrt", change_illicit := change_tobacco_illicit[2] ]
 
   ## calculate expenditure changes
-  tobacco_data[, exp_change_licit := ((1 + pct_change_licit) * spend_licit_mn) - spend_licit_mn]
+  tobacco_data[, exp_change_licit := change_licit]
   tobacco_data[, exp_change_licit_bp := exp_change_licit * (1 - tax_pct - 0.1426)]
-  tobacco_data[, exp_change_illicit := ((1 + pct_change_illicit) * spend_illicit_mn) - spend_illicit_mn]
+  tobacco_data[, exp_change_illicit := change_illicit]
 
   ## calculate change in tax take
   tobacco_data[, tax := exp_change_licit * tax_pct]
@@ -151,13 +149,13 @@ GenExpenditure <- function(year = 2019,
   alcohol_data <- cdohio.mod::alcohol_expenditure[year == y,]
 
   ## get percentage changes
-  alcohol_data[alcohol_category == "beer",    pct_change := change_alcohol[1] ]
-  alcohol_data[alcohol_category == "cider",   pct_change := change_alcohol[2] ]
-  alcohol_data[alcohol_category == "wine",    pct_change := change_alcohol[3] ]
-  alcohol_data[alcohol_category == "spirits", pct_change := change_alcohol[4] ]
+  alcohol_data[alcohol_category == "beer",    change := change_alcohol[1] ]
+  alcohol_data[alcohol_category == "cider",   change := change_alcohol[2] ]
+  alcohol_data[alcohol_category == "wine",    change := change_alcohol[3] ]
+  alcohol_data[alcohol_category == "spirits", change := change_alcohol[4] ]
 
   ## calculate expenditure changes
-  alcohol_data[, exp_change_alcohol := ((1 + pct_change) * exp_alcohol_mn) - exp_alcohol_mn]
+  alcohol_data[, exp_change_alcohol := change]
   alcohol_data[, exp_change_alcohol_bp := exp_change_alcohol * (1 - tax_pct - 0.1426 - 0.2515)]
 
   ## calculate tax changes

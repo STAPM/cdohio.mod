@@ -7,8 +7,8 @@
 \format{
 A data table with 105 rows and 8 columns:
 \describe{
-  \item{SIC}{Standard Industrial Classification for 2007 (SIC-2007) codes}
-  \item{SIC_Industry}{103 CPA product categories in the HHFCE table}
+  \item{SIC}{105 Standard Industrial Classification for 2007 (SIC-2007) codes corresponding to 105 CPA categories}
+  \item{SIC_Industry}{Industry descriptions}
   \item{earn_2017}{gross average annual earnings for 2017}
   \item{earn_2018}{gross average annual earnings for 2018}
   \item{earn_2019}{gross average annual earnings for 2019}
@@ -17,6 +17,9 @@ A data table with 105 rows and 8 columns:
   \item{earn_2022}{gross average annual earnings for 2022}
 }
 }
+\source{
+\href{https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=2000026}{Labour Force Survey. DOI: 10.5255/UKDA-Series-2000026}
+}
 \usage{
 lfs_wage_data
 }
@@ -24,6 +27,5 @@ lfs_wage_data
 Gross average annual earnings by sector associated with each product. Average earnings data are available for
 years 2017 to 2022. Data are sourced from the Labour Force Survey (LFS), and averages for each year are calculated from
 a rolling three-year period to ensure sufficient sample size to calculate an average for each sector, e.g.
-earnings for 2017 are calculated using LFS data from 2016-2018.
 }
 \keyword{datasets}

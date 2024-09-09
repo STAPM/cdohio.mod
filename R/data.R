@@ -152,6 +152,10 @@
 #'   \item{A}{the matrix of technical coefficients - the input-output table elements as a proportion of total output}
 #'   \item{L}{the Leontief inverse (type 1)}
 #'   \item{L2}{the Leontief inverse (type 2)}
+#'   \item{output}{total product output in basic prices (£mn)}
+#'   \item{gva}{gross value added (£mn)}
+#'   \item{tax_on_products}{taxes less subsidies on products (£mn)}
+#'   \item{tax_on_production}{taxes less subsidies on production (£mn)}
 #'   \item{gva_coefficients}{Gross value added (GVA) as a proportion of total product output}
 #'   \item{tax_coefficients}{Net tax on production as a proportion of total product output}
 #'   \item{coe_coefficients}{Compensation of employees as a proportion of total product output}
@@ -179,6 +183,10 @@
 #'   \item{A}{the matrix of technical coefficients - the input-output table elements as a proportion of total output}
 #'   \item{L}{the Leontief inverse (type 1)}
 #'   \item{L2}{the Leontief inverse (type 2)}
+#'   \item{output}{total product output in basic prices (£mn)}
+#'   \item{gva}{gross value added (£mn)}
+#'   \item{tax_on_products}{taxes less subsidies on products (£mn)}
+#'   \item{tax_on_production}{taxes less subsidies on production (£mn)}
 #'   \item{gva_coefficients}{Gross value added (GVA) as a proportion of total product output}
 #'   \item{tax_coefficients}{Net tax on production as a proportion of total product output}
 #'   \item{coe_coefficients}{Compensation of employees as a proportion of total product output}
@@ -207,6 +215,10 @@
 #'   \item{A}{the matrix of technical coefficients - the input-output table elements as a proportion of total output}
 #'   \item{L}{the Leontief inverse (type 1)}
 #'   \item{L2}{the Leontief inverse (type 2)}
+#'   \item{output}{total product output in basic prices (£mn)}
+#'   \item{gva}{gross value added (£mn)}
+#'   \item{tax_on_products}{taxes less subsidies on products (£mn)}
+#'   \item{tax_on_production}{taxes less subsidies on production (£mn)}
 #'   \item{gva_coefficients}{Gross value added (GVA) as a proportion of total product output}
 #'   \item{tax_coefficients}{Net tax on production as a proportion of total product output}
 #'   \item{coe_coefficients}{Compensation of employees as a proportion of total product output}
@@ -234,6 +246,10 @@
 #'   \item{A}{the matrix of technical coefficients - the input-output table elements as a proportion of total output}
 #'   \item{L}{the Leontief inverse (type 1)}
 #'   \item{L2}{the Leontief inverse (type 2)}
+#'   \item{output}{total product output in basic prices (£mn)}
+#'   \item{gva}{gross value added (£mn)}
+#'   \item{tax_on_products}{taxes less subsidies on products (£mn)}
+#'   \item{tax_on_production}{taxes less subsidies on production (£mn)}
 #'   \item{gva_coefficients}{Gross value added (GVA) as a proportion of total product output}
 #'   \item{tax_coefficients}{Net tax on production as a proportion of total product output}
 #'   \item{coe_coefficients}{Compensation of employees as a proportion of total product output}
@@ -266,13 +282,12 @@
 #' Gross average annual earnings by sector associated with each product. Average earnings data are available for
 #' years 2017 to 2022. Data are sourced from the Labour Force Survey (LFS), and averages for each year are calculated from
 #' a rolling three-year period to ensure sufficient sample size to calculate an average for each sector, e.g.
-#' earnings for 2017 are calculated using LFS data from 2016-2018.
 #'
 #' @format
 #' A data table with 105 rows and 8 columns:
 #' \describe{
-#'   \item{SIC}{Standard Industrial Classification for 2007 (SIC-2007) codes}
-#'   \item{SIC_Industry}{103 CPA product categories in the HHFCE table}
+#'   \item{SIC}{105 Standard Industrial Classification for 2007 (SIC-2007) codes corresponding to 105 CPA categories}
+#'   \item{SIC_Industry}{Industry descriptions}
 #'   \item{earn_2017}{gross average annual earnings for 2017}
 #'   \item{earn_2018}{gross average annual earnings for 2018}
 #'   \item{earn_2019}{gross average annual earnings for 2019}
@@ -280,7 +295,36 @@
 #'   \item{earn_2021}{gross average annual earnings for 2021}
 #'   \item{earn_2022}{gross average annual earnings for 2022}
 #' }
+#' @source \href{https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=2000026}{Labour Force Survey. DOI: 10.5255/UKDA-Series-2000026}
 "lfs_wage_data"
+
+#' Annual Employment
+#'
+#' Employment by sector corresponding to the 105 products in the model. Employment data are available for
+#' years 2017 to 2022 as both total employment and full-time-equivalent (FTE) employment. FTE employment is
+#' constructed as a weighted sum of employment where full-time workers have a weight of 1 and part-time workers
+#' a weight of 0.5. Usual weekly hours worked of less than 30 hours is considered part-time.
+#'
+#' @format
+#' A data table with 105 rows and 14 columns:
+#' \describe{
+#'   \item{SIC}{105 Standard Industrial Classification for 2007 (SIC-2007) codes corresponding to 105 CPA categories}
+#'   \item{SIC_Industry}{Industry descriptions}
+#'   \item{empl_2017}{total employment for 2017}
+#'   \item{fte_2017}{full-time equivalent employment for 2017}
+#'   \item{empl_2018}{total employment for 2018}
+#'   \item{fte_2018}{full-time equivalent employment for 2018}
+#'   \item{empl_2019}{total employment for 2019}
+#'   \item{fte_2019}{full-time equivalent employment for 2019}
+#'   \item{empl_2020}{total employment for 2020}
+#'   \item{fte_2020}{full-time equivalent employment for 2020}
+#'   \item{empl_2021}{total employment for 2021}
+#'   \item{fte_2021}{full-time equivalent employment for 2021}
+#'   \item{empl_2022}{total employment for 2022}
+#'   \item{fte_2022}{full-time equivalent employment for 2022}
+#' }
+#' @source \href{https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=2000026}{Labour Force Survey. DOI: 10.5255/UKDA-Series-2000026}
+"lfs_empl_data"
 
 #' Income Tax Parameters 2010-2022
 #'
