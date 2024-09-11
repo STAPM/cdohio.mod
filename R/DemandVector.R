@@ -132,7 +132,7 @@ DemandVector <- function(year_io = 2019,
   #### NO PRODUCTS EXCLUDED
 
   if (!("alcohol" %in% excluded_products) & !("tobacco" %in% excluded_products) & !("food" %in% excluded_products) ){
-    print("No products excluded")
+    #print("No products excluded")
 
     hhfce_vector <- copy(hhfce_vector_all)
   }
@@ -140,19 +140,19 @@ DemandVector <- function(year_io = 2019,
   #### ONE PRODUCT
 
   if ("alcohol" %in% excluded_products & !("tobacco" %in% excluded_products) & !("food" %in% excluded_products) ){
-    print("Alcohol excluded")
+    #print("Alcohol excluded")
 
     hhfce_vector <- copy(hhfce_vector_noalc)
   }
 
   if (!("alcohol" %in% excluded_products) & "tobacco" %in% excluded_products & !("food" %in% excluded_products) ){
-    print("Tobacco excluded")
+    #print("Tobacco excluded")
 
     hhfce_vector <- copy(hhfce_vector_notob)
   }
 
   if (!("alcohol" %in% excluded_products) & !("tobacco" %in% excluded_products) & "food" %in% excluded_products ){
-    print("Food excluded")
+    #print("Food excluded")
 
     hhfce_vector <- copy(hhfce_vector_nofood)
   }
@@ -160,19 +160,19 @@ DemandVector <- function(year_io = 2019,
   #### TWO PRODUCTS
 
   if ("alcohol" %in% excluded_products & "tobacco" %in% excluded_products & !("food" %in% excluded_products) ){
-    print("Alcohol + Tobacco excluded")
+    #print("Alcohol + Tobacco excluded")
 
     hhfce_vector <- copy(hhfce_vector_noalctob)
   }
 
   if ("alcohol" %in% excluded_products & !("tobacco" %in% excluded_products) & "food" %in% excluded_products ){
-    print("Alcohol + Food excluded")
+    #print("Alcohol + Food excluded")
 
     hhfce_vector <- copy(hhfce_vector_noalcfood)
   }
 
   if (!("alcohol" %in% excluded_products) & "tobacco" %in% excluded_products & "food" %in% excluded_products ){
-    print("Tobacco + Food excluded")
+    #print("Tobacco + Food excluded")
 
     hhfce_vector <- copy(hhfce_vector_notobfood)
   }
@@ -180,7 +180,7 @@ DemandVector <- function(year_io = 2019,
   #### THREE PRODUCTS
 
   if ("alcohol" %in% excluded_products & "tobacco" %in% excluded_products & "food" %in% excluded_products ){
-    print("Alcohol + Tobacco + Food excluded")
+    #print("Alcohol + Tobacco + Food excluded")
 
     hhfce_vector <- copy(hhfce_vector_noalctobfood)
   }
