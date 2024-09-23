@@ -179,6 +179,7 @@ tax_receipts_ni <- read_xlsx(path = "data-raw/data/Disaggregated_tax_and_NICs_re
   select("year", spirits = "Spirits duties", beer = "Beer duties", wine = "Wines duties", cider = "Cider duties") %>%
   mutate(calendar_year = substr(year, 1, 4),
          country = "Northern Ireland") %>%
+  filter(calendar_year %in% c("2015","2016","2017","2018") ) %>%
   summarise(beer = mean(beer),
             cider = mean(cider),
             wine = mean(wine),

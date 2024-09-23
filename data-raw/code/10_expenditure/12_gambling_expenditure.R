@@ -26,4 +26,28 @@ gambling_expenditure <- melt(gambling_ggy,
                              variable.name = "gambling_category",
                              value.name = "ggy_mn")
 
+########################################################
+#### Disaggregated Tax Receipts - HMRC Tax Receipts ####
+
+#### Gambling Commission data only has GB ggy spending. Use disaggregated tax receipts
+#### by UK nation to estimate inflation factors for spending.
+####
+#### GC EXP = TOTAL EXP * (1 - NI%)
+
+# Northern Ireland
+tax_receipts_ni <- read_xlsx(path = "data-raw/data/Disaggregated_tax_and_NICs_receipts_-_statistics_table.xlsx",
+                             range = "A150:AA170") %>%
+  rename(year = "Northern Ireland") %>%
+  select("year", duty = "Betting & Gaming") %>%
+  mutate(calendar_year = substr(year, 1, 4),
+         country = "Northern Ireland") %>%
+  filter(calendar_year %in% c("2015","2016","2017","2018") ) %>%
+  summarise(duty = mean(duty))
+
+gambling_duty_ni_pct    <- as.numeric(tax_receipts_ni[1,"duty"])
+
+# Adjust GB to a UK estimate
+gambling_expenditure[, ggy_mn := ggy_mn/(1 - gambling_duty_ni_pct)]
+
+
 usethis::use_data(gambling_expenditure, overwrite = TRUE)
