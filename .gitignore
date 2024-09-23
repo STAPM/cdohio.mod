@@ -4,3 +4,4 @@
 .Ruserdata
 inst/doc
 *.tab
+*Thumbs.db
