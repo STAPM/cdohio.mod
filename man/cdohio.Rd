@@ -70,6 +70,8 @@ List object with the following elements:
   \item{`expenditure_change`}{Change in expenditure in £millions}
   \item{`final_demand`}{Modelled vector of final demand changes across 105 products}
   \item{`effects`}{Aggregate economic impacts - direct, indirect, and induced}
+  \item{`effects_pct`}{Aggregate economic impacts - direct, indirect, and induced (percent of UK total)}
+  \item{`baseline`}{Totals of each economic outcome in the UK}
   \item{`type0_effects_by_product`}{direct economic impacts for each product}
   \item{`type1_effects_by_product`}{direct + indirect economic impacts for each product}
   \item{`type2_effects_by_product`}{direct + indirect + induced economic impacts for each product}

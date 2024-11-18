@@ -288,9 +288,21 @@ EconImpactCalc <- function(year = 2019,
   effects_pct[, net_earn_vec := 100*(net_earn_vec / total_net_earnings)]
   effects_pct[, inc_tax_nics_vec := 100*(inc_tax_nics_vec / total_inc_tax_nics)]
 
+  ## recover the baseline total numbers
+
+  baseline <- copy(effects_pct)
+
+  baseline[, output_vec := total_output]
+  baseline[, gva_vec := total_gva]
+  baseline[, tax_vec := total_tax]
+  baseline[, fte_vec := total_fte]
+  baseline[, earn_vec := total_gross_earnings]
+  baseline[, net_earn_vec := total_net_earnings]
+  baseline[, inc_tax_nics_vec := total_inc_tax_nics]
 
   return(list(effects = effects,
               effects_pct = effects_pct,
+              baseline = baseline,
               type0_effects_by_product = type0_effects,
               type1_effects_by_product = type1_effects,
               type2_effects_by_product = type2_effects))

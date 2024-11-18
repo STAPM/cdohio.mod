@@ -50,6 +50,8 @@
 #'   \item{`expenditure_change`}{Change in expenditure in £millions}
 #'   \item{`final_demand`}{Modelled vector of final demand changes across 105 products}
 #'   \item{`effects`}{Aggregate economic impacts - direct, indirect, and induced}
+#'   \item{`effects_pct`}{Aggregate economic impacts - direct, indirect, and induced (percent of UK total)}
+#'   \item{`baseline`}{Totals of each economic outcome in the UK}
 #'   \item{`type0_effects_by_product`}{direct economic impacts for each product}
 #'   \item{`type1_effects_by_product`}{direct + indirect economic impacts for each product}
 #'   \item{`type2_effects_by_product`}{direct + indirect + induced economic impacts for each product}
@@ -134,6 +136,7 @@ cdohio <- function(year = 2019,
               final_demand = final_demand,
               effects = impacts$effects,
               effects_pct = impacts$effects_pct,
+              baseline = impacts$baseline,
               type0_effects_by_product = impacts$type0_effects_by_product,
               type1_effects_by_product = impacts$type1_effects_by_product,
               type2_effects_by_product = impacts$type2_effects_by_product,
