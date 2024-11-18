@@ -27,6 +27,7 @@ for (y in 2017:2022){
 data <- lfs_data[l_lmstatus_8cat=="employed" | l_lmstatus_8cat=="self_employed" ,]
 data <- data[!is.na(l_full_time) ,]
 data <- data[!is.na(l_sic2007code) ,]
+data <- data[year == y, ]
 
 data[l_full_time == "full_time",fte_ := 1]
 data[l_full_time == "part_time",fte_ := 0.5]
