@@ -255,28 +255,37 @@ EconImpactCalc <- function(year = 2019,
   effects_pct[, net_earn_vec := net_earn_vec * infl_adjust2]
   effects_pct[, inc_tax_nics_vec := inc_tax_nics_vec * infl_adjust2]
 
+  #####################################################################
   ## get annual totals to calculate relative effects
 
   inctax_year_ioat <- TaxCalc(earn_data = cdohio.mod::lfs_wage_data,
                               tax_data = cdohio.mod::income_tax_params,
                               year = year_io)
 
-  total_gross_earnings <- sum(inctax_year_ioat$earn)
-  total_net_earnings   <- sum(inctax_year_ioat$net_earn)
-  total_inc_tax_nics   <- sum(inctax_year_ioat$total_employee_tax)
+
+  if (year_io == 2017){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2017"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2017
+  } else if (year_io == 2018){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2018"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2018
+  } else if (year_io == 2019){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2019"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2019
+  } else if (year_io == 2020){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2020"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2020
+  }
+
+  ## get baseline totals
+
+  total_gross_earnings <- sum(inctax_year_ioat$earn * fte) / 1000000
+  total_net_earnings   <- sum(inctax_year_ioat$net_earn * fte) / 1000000
+  total_inc_tax_nics   <- sum(inctax_year_ioat$total_employee_tax * fte) / 1000000
   total_tax            <- sum(inputoutput$tax_on_products) + sum(inputoutput$tax_on_production)
   total_output         <- sum(inputoutput$output)
   total_gva            <- sum(inputoutput$gva)
 
-  if (year_io == 2017){
-    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2017"])
-  } else if (year_io == 2018){
-    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2018"])
-  } else if (year_io == 2019){
-    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2019"])
-  } else if (year_io == 2020){
-    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2020"])
-  }
 
   ## calculate the estimated relative effects
 
@@ -288,17 +297,18 @@ EconImpactCalc <- function(year = 2019,
   effects_pct[, net_earn_vec := 100*(net_earn_vec / total_net_earnings)]
   effects_pct[, inc_tax_nics_vec := 100*(inc_tax_nics_vec / total_inc_tax_nics)]
 
-  ## recover the baseline total numbers
+  ## add the baseline total numbers to a matrix
 
-  baseline <- copy(effects_pct)
-
-  baseline[, output_vec := total_output]
-  baseline[, gva_vec := total_gva]
-  baseline[, tax_vec := total_tax]
-  baseline[, fte_vec := total_fte]
-  baseline[, earn_vec := total_gross_earnings]
-  baseline[, net_earn_vec := total_net_earnings]
-  baseline[, inc_tax_nics_vec := total_inc_tax_nics]
+  baseline <- matrix(c(total_output,
+                       total_gva,
+                       total_tax,
+                       total_fte,
+                       total_net_earnings,
+                       total_inc_tax_nics),
+                     nrow = 1,
+                     dimnames = list(NULL,
+                                     c("output","gva","tax_employers","fte","net_earn","inc_tax_nics"))
+                     )
 
   return(list(effects = effects,
               effects_pct = effects_pct,
