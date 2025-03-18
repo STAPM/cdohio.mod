@@ -16,6 +16,22 @@
 #' }
 "cpa_conversion_matrix"
 
+#' CPA Conversion Matrix
+#'
+#' A mapping of the 105 CPA product categories onto broad sectors based on the Standard Industrial Classification
+#' (SIC-2007).
+#'
+#' @format
+#' A data frame with 48 rows and 4 columns:
+#' \describe{
+#'   \item{CPA}{CPA codes in the input-output tables (105 categories)}
+#'   \item{Product}{CPA product description}
+#'   \item{sector}{20-category classification of the 105 CPA categories into SIC sectors}
+#'   \item{sector_broad}{12-category version of the classification}
+#' }
+"cpa_to_sector"
+
+
 #' Classification of Individual Consumption According to Purpose
 #'
 #' The Classification of Individual Consumption According to Purpose (COICOP) is a 36-category
