@@ -294,6 +294,8 @@ usethis::use_data(alcohol_expenditure, overwrite = TRUE)
 ##############################################################################
 ### From the supply tables: imports / distributor margins as % of supply
 
+## OFF-TRADE
+
 ## Imports
 
 print(paste0("Import as % of Supply, 2021: ", round(9897/69415,4)*100 ))
@@ -310,3 +312,16 @@ print(paste0("Distributors Trading Margins as % of Supply, 2020: ", round(15957/
 print(paste0("Distributors Trading Margins as % of Supply, 2019: ", round(17019/69358,4)*100 ))
 print(paste0("Distributors Trading Margins as % of Supply, 2018: ", round(18445/70292,4)*100 ))
 print(paste0("Distributors Trading Margins as % of Supply, 2017: ", round(16532/65796,4)*100 ))
+
+
+## ON-TRADE
+
+## Imports
+
+print(paste0("Import as % of Supply, 2021: ", round(2756/113936,4)*100 ))
+
+
+## Distributors trading margins
+
+print(paste0("Distributors Trading Margins as % of Supply, 2021: ", round(0/113936,4)*100 ))
+

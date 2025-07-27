@@ -10,7 +10,8 @@ GenExpenditure(
   change_gambling = rep(0, 9),
   change_tobacco_licit = rep(0, 2),
   change_tobacco_illicit = rep(0, 2),
-  change_alcohol = rep(0, 4),
+  change_alcohol_on = rep(0, 4),
+  change_alcohol_off = rep(0, 4),
   reallocate_food = NULL
 )
 }
@@ -33,8 +34,11 @@ licit tobacco product categories (cigarettes, handrolled tobacco)}
 \item{change_tobacco_illicit}{Numeric vector. Percentage change in expenditure on 2
 illicit tobacco product categories (cigarettes, handrolled tobacco)}
 
-\item{change_alcohol}{Numeric vector. Percentage change in expenditure on 4 alcohol
-product categories (beer, cider, spirits, wine)}
+\item{change_alcohol_on}{Numeric vector. Percentage change in expenditure on 4 alcohol
+product categories in the on-trade (beer, cider, spirits, wine)}
+
+\item{change_alcohol_off}{Numeric vector. Percentage change in expenditure on 4 alcohol
+product categories in the off-trade (beer, cider, spirits, wine)}
 
 \item{reallocate_food}{Numeric. Reallocating changed expenditure on food to other food categories.
 Select one of the seven food categories in the input-output model to reallocate the changed spending
