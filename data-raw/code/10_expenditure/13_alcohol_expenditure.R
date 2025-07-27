@@ -160,7 +160,8 @@ mesas[alcohol_type %in% c("Cider", "Perry"),           alcohol_category := "cide
 mesas <- mesas[alcohol_category %in% c("spirits","beer","wine","cider"),]
 
 # Recalculate sales data by alcohol type
-mesas <- mesas[, .(exp_alcohol_mn = sum(sales, na.rm = TRUE)), by = c("year","alcohol_category")]
+#mesas <- mesas[, .(exp_alcohol_mn = sum(sales, na.rm = TRUE)), by = c("year","alcohol_category")]
+mesas <- mesas[, .(exp_alcohol_mn = sum(sales, na.rm = TRUE)), by = c("year","alcohol_category","sector")]
 
 mesas <- mesas[year >= 2010,]
 
@@ -200,8 +201,11 @@ mesas[alcohol_category == "spirits", exp_alcohol_mn := exp_alcohol_mn/(1 - spiri
 
 mesas[, year := as.numeric(year)]
 
-###############################
-#### HMRC Alcohol Bulletin ####
+mesas <- dcast(mesas, year + alcohol_category ~ sector, value.var = "exp_alcohol_mn")
+setnames(mesas, names(mesas), c("year","alcohol_category", "exp_alcohol_off_mn", "exp_alcohol_on_mn"))
+
+#############################################
+#### HMRC Alcohol Bulletin               ####
 
 # This contains more up-to-date data on alcohol tax receipts but without country-level disaggregation
 
@@ -231,7 +235,41 @@ alc_receipts_data$year <- as.numeric(alc_receipts_data$year)
 
 alc_receipts_data_long <- pivot_longer(alc_receipts_data, cols = "wine":"cider", names_to = "alcohol_category", values_to = "tax")
 alc_receipts_data_long <- filter(alc_receipts_data_long, year >= 2010)
+setDT(alc_receipts_data_long)
 
+# split into on-off trade using consumption data from MESAS - assume the tax take is split between
+# on and off trades in the same proportion
+
+consumption <- copy(mesas_volume)
+
+consumption[alcohol_type %in% c("Spirits", "RTDs", "Other"), alcohol_category := "spirits"]
+consumption[alcohol_type %in% c("Beer"),                     alcohol_category := "beer"]
+consumption[alcohol_type %in% c("Fortified Wines", "Wine"),  alcohol_category := "wine"]
+consumption[alcohol_type %in% c("Cider", "Perry"),           alcohol_category := "cider"]
+
+consumption <- consumption[alcohol_category %in% c("spirits","beer","wine","cider"),]
+consumption[, year := as.numeric(year)]
+consumption <- consumption[year >= 2010,]
+
+consumption <- consumption[, .(volume = sum(volume,na.rm = T)), by = c("year","alcohol_category","sector")]
+
+consumption <- dcast(consumption, year + alcohol_category ~ sector, value.var = "volume")
+setnames(consumption, names(consumption), c("year","alcohol_category", "cons_alcohol_off", "cons_alcohol_on"))
+
+consumption[, prop_off := cons_alcohol_off /(cons_alcohol_off + cons_alcohol_on) ]
+
+consumption[, c("cons_alcohol_off","cons_alcohol_on") := NULL]
+
+## merge to alcohol receipts data
+
+alc_receipts_data_long <- merge(alc_receipts_data_long, consumption, by = c("year","alcohol_category"))
+
+## split into on/off-trade
+
+alc_receipts_data_long[, tax_off_trade := tax * prop_off]
+alc_receipts_data_long[, tax_on_trade := tax * (1-prop_off)]
+
+alc_receipts_data_long[, "tax" := NULL]
 
 #############################################
 ##### Merge tax data to expenditure data ####
@@ -240,8 +278,13 @@ alcohol_expenditure <- merge(mesas, alc_receipts_data_long, by = c("year","alcoh
 
 alcohol_expenditure[, "tax_year" := NULL]
 
-alcohol_expenditure[, tax_pct := tax/exp_alcohol_mn + 0.2/(1 + 0.2)]
-alcohol_expenditure[, "tax" := NULL]
+# divide tax according to on/off-trade consumption split
+
+#alcohol_expenditure[, tax_on := tax * ()]
+
+alcohol_expenditure[, tax_on_pct := (tax_on_trade/exp_alcohol_on_mn) + 0.2/(1 + 0.2)]
+alcohol_expenditure[, tax_off_pct := (tax_off_trade/exp_alcohol_off_mn) + 0.2/(1 + 0.2)]
+alcohol_expenditure[, c("tax_on_trade","tax_off_trade") := NULL]
 
 ## write out the data
 
