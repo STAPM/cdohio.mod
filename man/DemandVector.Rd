@@ -12,7 +12,8 @@ DemandVector(
   food_vec,
   gambling_vec,
   tobacco_vec,
-  alcohol_vec,
+  alcohol_off_vec,
+  alcohol_on_vec,
   consumption_category = NULL
 )
 }
@@ -33,7 +34,10 @@ c("alcohol","tobacco","food","gambling") - default is to exclude all four catego
 \item{tobacco_vec}{Numeric vector. Change in demand for tobacco products (3) - licit tobacco in purchaser prices, licit
 tobacco in basic prices, and illicit tobacco}
 
-\item{alcohol_vec}{Numeric vector. Change in demand for all alcohol (2) - all alcohol in purchaser prices, and all alcohol
+\item{alcohol_off_vec}{Numeric vector. Change in demand for off-trade alcohol (2) - off-trade alcohol in purchaser prices, and off-trade alcohol
+in basic prices}
+
+\item{alcohol_on_vec}{Numeric vector. Change in demand for on-trade alcohol (2) - on-trade alcohol in purchaser prices, and on-trade alcohol
 in basic prices}
 
 \item{consumption_category}{Numeric integer. Takes on a value of 1-36 or NULL (default). If NULL, reallocated spending is

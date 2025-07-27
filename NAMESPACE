@@ -3,6 +3,7 @@
 export(DemandVector)
 export(EconImpactCalc)
 export(GenExpenditure)
+export(GovtSpendVector)
 export(InputExpenditure)
 export(Multipliers)
 export(TaxCalc)

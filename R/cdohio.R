@@ -30,8 +30,10 @@
 #' licit tobacco product categories (cigarettes, handrolled tobacco)
 #' @param change_tobacco_illicit Numeric vector. Percentage change in expenditure on 2
 #' illicit tobacco product categories (cigarettes, handrolled tobacco)
-#' @param change_alcohol Numeric vector. Percentage change in expenditure on 4 alcohol
-#' product categories (beer, cider, spirits, wine)
+#' @param change_alcohol_on Numeric vector. Percentage change in expenditure on 4 alcohol
+#' product categories in the on-trade (beer, cider, spirits, wine)
+#' @param change_alcohol_off Numeric vector. Percentage change in expenditure on 4 alcohol
+#' product categories in the off-trade (beer, cider, spirits, wine)
 #' @param reallocate_food Numeric. Reallocating changed expenditure on food to other food categories.
 #' Select one of the seven food categories in the input-output model to reallocate the changed spending
 #' on food to; (1) meat and meat products (2) fish, fruit, and vegetables (3) oils and fats (4) dairy
@@ -43,6 +45,9 @@
 #' index of the 36 consumption category). Note that this overrides any
 #' restrictions imposed by `excluded_products` e.g. if "alcohol" is specified but `consumption_category` is set equal to 3
 #' (alcoholic beverages), all expenditure will be reallocated to alcoholic beverages.
+#' @param govt_spend Numeric. Changes in central government spending.
+#' @param govt_allocation Numeric. options for the allocation of changes in central government spending. 1 for pro-rata
+#' allocation according to the input-output tables. 2 for full allocation to health (CPA_Q86).
 #'
 #' @return List object with the following elements:
 #'
@@ -74,9 +79,12 @@ cdohio <- function(year = 2019,
                    change_gambling = rep(0, 9),
                    change_tobacco_licit = rep(0, 2),
                    change_tobacco_illicit = rep(0, 2),
-                   change_alcohol = rep(0, 4),
+                   change_alcohol_on = rep(0, 4),
+                   change_alcohol_off = rep(0, 4),
                    reallocate_food = NULL,
-                   consumption_category = NULL){
+                   consumption_category = NULL,
+                   govt_spend = 0,
+                   govt_allocation = 1){
 
   ###########################################################
   ##### (1) Derive vectors of expenditure changes
@@ -86,30 +94,51 @@ cdohio <- function(year = 2019,
                              change_gambling = change_gambling,
                              change_tobacco_licit = change_tobacco_licit,
                              change_tobacco_illicit = change_tobacco_illicit,
-                             change_alcohol = change_alcohol,
+                             change_alcohol_on = change_alcohol_on,
+                             change_alcohol_off = change_alcohol_off,
                              reallocate_food = reallocate_food)
 
-  exp_food      <- sum(scenario$food)
-  exp_gambling  <- sum(scenario$gambling)
-  exp_alcohol   <- scenario$alcohol[["alcohol"]]
-  exp_tobacco_l <- scenario$tobacco[["tobacco_l"]]
-  exp_tobacco_i <- scenario$tobacco[["tobacco_i"]]
+  exp_food        <- sum(scenario$food)
+  exp_gambling    <- sum(scenario$gambling)
+  exp_alcohol_on  <- scenario$alcohol_on[["alcohol_on"]]
+  exp_alcohol_off <- scenario$alcohol_off[["alcohol_off"]]
+  exp_tobacco_l   <- scenario$tobacco[["tobacco_l"]]
+  exp_tobacco_i   <- scenario$tobacco[["tobacco_i"]]
 
-  expenditure_change <- data.table(category = c("food","gambling","alcohol","tobacco (licit)","tobacco (illicit)"),
-                                   expenditure_change = c(exp_food,exp_gambling,exp_alcohol,exp_tobacco_l,exp_tobacco_i))
+  expenditure_change <- data.table(category = c("food",
+                                                "gambling",
+                                                "alcohol_on",
+                                                "alcohol_off",
+                                                "tobacco (licit)",
+                                                "tobacco (illicit)"),
+                                   expenditure_change = c(exp_food,
+                                                          exp_gambling,
+                                                          exp_alcohol_on,
+                                                          exp_alcohol_off,
+                                                          exp_tobacco_l,
+                                                          exp_tobacco_i))
 
+  ###############################################################
+  ##### (2a) Derive vectors of expenditure changes (households)
 
-  ###########################################################
-  ##### (2) Derive vectors of expenditure changes
-
-  demand   <- DemandVector(year_io = year_io,
+  hhold    <- DemandVector(year_io = year_io,
                            reallocate_prop = reallocate_prop,
                            excluded_products = excluded_products,
-                           food_vec     = scenario$food,
-                           gambling_vec = scenario$gambling,
-                           tobacco_vec  = scenario$tobacco,
-                           alcohol_vec  = scenario$alcohol,
+                           food_vec         = scenario$food,
+                           gambling_vec     = scenario$gambling,
+                           tobacco_vec      = scenario$tobacco,
+                           alcohol_off_vec  = scenario$alcohol_off,
+                           alcohol_on_vec   = scenario$alcohol_on,
                            consumption_category = consumption_category)
+
+  ###############################################################
+  ##### (2b) Derive vectors of expenditure changes (govt)
+
+  govt <- GovtSpendVector(year_io = year_io,
+                          govt_spend = govt_spend,
+                          govt_allocation = govt_allocation)
+
+  demand <- hhold + govt
 
   final_demand <- copy(cdohio.mod::cpa_categories)
   final_demand[, final_demand := demand]
@@ -121,7 +150,8 @@ cdohio <- function(year = 2019,
                             year_io = year_io,
                             base = base,
                             input_vector = demand,
-                            alcohol_tax = scenario$alc_tax,
+                            alcohol_off_tax = scenario$alc_off_tax,
+                            alcohol_on_tax = scenario$alc_on_tax,
                             tobacco_tax = scenario$tob_tax)
 
   #############################################
