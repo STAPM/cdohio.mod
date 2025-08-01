@@ -8,7 +8,8 @@
 #' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
 #' @param base Numeric. Base year to use for inflation adjustment - default is 2019.
 #' @param input_vector Numeric vector. The vector of length 105 of changes in final demand in basic prices.
-#' @param alcohol_tax Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.
+#' @param alcohol_off_tax Numeric. Change in tax less subsidies on products for off-trade alcohol calculated from `GenExpenditure()` function.
+#' @param alcohol_on_tax Numeric. Change in tax less subsidies on products for on-trade alcohol calculated from `GenExpenditure()` function.
 #' @param tobacco_tax Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.
 #'
 #' @return A list of outputs
@@ -23,14 +24,15 @@ EconImpactCalc <- function(year = 2019,
                            year_io = 2019,
                            base = 2019,
                            input_vector,
-                           alcohol_tax = 0,
+                           alcohol_off_tax = 0,
+                           alcohol_on_tax = 0,
                            tobacco_tax = 0){
 
   ###################################################################
   ## Add changes in tax on alcohol and tobacco which was calculated
   ## manually
 
-  alc_tob_duties <- alcohol_tax + tobacco_tax
+  alc_tob_duties <- alcohol_off_tax + alcohol_on_tax + tobacco_tax
 
   ###############################################
   ### create inflation adjustment factor ########

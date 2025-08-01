@@ -9,7 +9,8 @@ EconImpactCalc(
   year_io = 2019,
   base = 2019,
   input_vector,
-  alcohol_tax = 0,
+  alcohol_off_tax = 0,
+  alcohol_on_tax = 0,
   tobacco_tax = 0
 )
 }
@@ -22,7 +23,9 @@ EconImpactCalc(
 
 \item{input_vector}{Numeric vector. The vector of length 105 of changes in final demand in basic prices.}
 
-\item{alcohol_tax}{Numeric. Change in tax less subsidies on products for alcohol calculated from `GenExpenditure()` function.}
+\item{alcohol_off_tax}{Numeric. Change in tax less subsidies on products for off-trade alcohol calculated from `GenExpenditure()` function.}
+
+\item{alcohol_on_tax}{Numeric. Change in tax less subsidies on products for on-trade alcohol calculated from `GenExpenditure()` function.}
 
 \item{tobacco_tax}{Numeric. Change in tax less subsidies on products for tobacco calculated from `GenExpenditure()` function.}
 }

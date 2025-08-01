@@ -12,7 +12,9 @@
 #' @param gambling_vec Numeric. Change in demand for all gambling (1).
 #' @param tobacco_vec Numeric vector. Change in demand for tobacco products (3) - licit tobacco in purchaser prices, licit
 #' tobacco in basic prices, and illicit tobacco
-#' @param alcohol_vec Numeric vector. Change in demand for all alcohol (2) - all alcohol in purchaser prices, and all alcohol
+#' @param alcohol_off_vec Numeric vector. Change in demand for off-trade alcohol (2) - off-trade alcohol in purchaser prices, and off-trade alcohol
+#' in basic prices
+#' @param alcohol_on_vec Numeric vector. Change in demand for on-trade alcohol (2) - on-trade alcohol in purchaser prices, and on-trade alcohol
 #' in basic prices
 #' @param consumption_category Numeric integer. Takes on a value of 1-36 or NULL (default). If NULL, reallocated spending is
 #' distributed on a pro-rata basis across the aggregate distribution of consumption across all 36 consumption categories. If
@@ -36,7 +38,8 @@ DemandVector <- function(year_io = 2019,
                          food_vec,
                          gambling_vec,
                          tobacco_vec,
-                         alcohol_vec,
+                         alcohol_off_vec,
+                         alcohol_on_vec,
                          consumption_category = NULL){
 
   ###############################################
@@ -202,7 +205,7 @@ DemandVector <- function(year_io = 2019,
   ### produce the input vector of change in demand for 105 products ###
   #####################################################################
 
-  scenario <- c(food_vec, gambling_vec, tobacco_vec, alcohol_vec)
+  scenario <- c(food_vec, gambling_vec, tobacco_vec, alcohol_off_vec, alcohol_on_vec)
 
   #####################################################################################
   ### convert food + gambling to basic prices (alcohol and tobacco are already done
@@ -227,7 +230,7 @@ DemandVector <- function(year_io = 2019,
                                           scenario["dairy"] + scenario["grains_and_starch"] +
                                           scenario["bakery"] + scenario["other_food"] +
                                           scenario["tobacco_l"] + scenario["tobacco_i"] +
-                                          scenario["alcohol"] + scenario["gambling"]) * -1
+                                          scenario["alcohol_off"] + scenario["alcohol_on"] + scenario["gambling"]) * -1
 
   ## vector of changes in spending across 36 COICOP categories
 
@@ -269,7 +272,9 @@ DemandVector <- function(year_io = 2019,
   supply_merge[Product == "Bakery and farinaceous products", demand_change := food_bakery_bp]
   supply_merge[Product == "Other food products", demand_change := food_other_bp]
 
-  supply_merge[Product == "Alcoholic beverages  & Tobacco products", demand_change := scenario["alcohol_bp"] + scenario["tobacco_l_bp"]]
+  supply_merge[Product == "Alcoholic beverages  & Tobacco products", demand_change := scenario["alcohol_off_bp"] + scenario["tobacco_l_bp"]]
+
+  supply_merge[Product == "Food and beverage serving services", demand_change := scenario["alcohol_on_bp"]]
 
   supply_merge[Product == "Gambling and betting services", demand_change := gambling_bp]
 

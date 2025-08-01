@@ -123,6 +123,22 @@
 #' @source \href{https://www.data.gov.uk/dataset/e7032815-5990-4439-b5c8-8553cf5b7fdd/gb-gambling-industry-statistics-february-2024}{Gambling Commission statistics}
 "gambling_expenditure"
 
+#' Government spending distribution
+#'
+#' Vectors of central government spending distributions across the 105 CPA categories in the input-output tables
+#'
+#' @format
+#' A data frame with 105 rows and 6 columns:
+#' \describe{
+#'   \item{CPA}{CPA codes in the input-output tables (105 categories)}
+#'   \item{Product}{Product description}
+#'   \item{govt_2017}{proportion of central government spending by CPA category (2017)}
+#'   \item{govt_2018}{proportion of central government spending by CPA category (2018)}
+#'   \item{govt_2019}{proportion of central government spending by CPA category (2019)}
+#'   \item{govt_2020}{proportion of central government spending by CPA category (2020)}
+#' }
+"govt_spending"
+
 #' Tobacco Expenditure Data
 #'
 #' Data on expenditure for 2 categories of tobacco spending (cigarettes and handrolled tobacco) between

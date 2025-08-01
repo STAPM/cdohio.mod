@@ -23,8 +23,10 @@
 #' licit tobacco product categories (cigarettes, handrolled tobacco)
 #' @param change_tobacco_illicit Numeric vector. Percentage change in expenditure on 2
 #' illicit tobacco product categories (cigarettes, handrolled tobacco)
-#' @param change_alcohol Numeric vector. Percentage change in expenditure on 4 alcohol
-#' product categories (beer, cider, spirits, wine)
+#' @param change_alcohol_on Numeric vector. Percentage change in expenditure on 4 alcohol
+#' product categories in the on-trade (beer, cider, spirits, wine)
+#' @param change_alcohol_off Numeric vector. Percentage change in expenditure on 4 alcohol
+#' product categories in the off-trade (beer, cider, spirits, wine)
 #' @param reallocate_food Numeric. Reallocating changed expenditure on food to other food categories.
 #' Select one of the seven food categories in the input-output model to reallocate the changed spending
 #' on food to; (1) meat and meat products (2) fish, fruit, and vegetables (3) oils and fats (4) dairy
@@ -45,7 +47,8 @@ GenExpenditure <- function(year = 2019,
                            change_gambling =        rep(0,9),
                            change_tobacco_licit =   rep(0,2),
                            change_tobacco_illicit = rep(0,2),
-                           change_alcohol =         rep(0,4),
+                           change_alcohol_on =      rep(0,4),
+                           change_alcohol_off =     rep(0,4),
                            reallocate_food = NULL){
 
   y <- copy(year)
@@ -151,31 +154,53 @@ GenExpenditure <- function(year = 2019,
   alcohol_data <- cdohio.mod::alcohol_expenditure[year == y,]
 
   ## get percentage changes
-  alcohol_data[alcohol_category == "beer",    pct_change := change_alcohol[1] ]
-  alcohol_data[alcohol_category == "cider",   pct_change := change_alcohol[2] ]
-  alcohol_data[alcohol_category == "wine",    pct_change := change_alcohol[3] ]
-  alcohol_data[alcohol_category == "spirits", pct_change := change_alcohol[4] ]
+  alcohol_data[alcohol_category == "beer",    pct_change_off := change_alcohol_off[1] ]
+  alcohol_data[alcohol_category == "cider",   pct_change_off := change_alcohol_off[2] ]
+  alcohol_data[alcohol_category == "wine",    pct_change_off := change_alcohol_off[3] ]
+  alcohol_data[alcohol_category == "spirits", pct_change_off := change_alcohol_off[4] ]
+  alcohol_data[alcohol_category == "beer",    pct_change_on := change_alcohol_on[1] ]
+  alcohol_data[alcohol_category == "cider",   pct_change_on := change_alcohol_on[2] ]
+  alcohol_data[alcohol_category == "wine",    pct_change_on := change_alcohol_on[3] ]
+  alcohol_data[alcohol_category == "spirits", pct_change_on := change_alcohol_on[4] ]
 
   ## calculate expenditure changes
-  alcohol_data[, exp_change_alcohol := ((1 + pct_change) * exp_alcohol_mn) - exp_alcohol_mn]
-  alcohol_data[, exp_change_alcohol_bp := exp_change_alcohol * (1 - tax_pct - 0.1426 - 0.2515)]
+  alcohol_data[, exp_change_alcohol_off := ((1 + pct_change_off) * exp_alcohol_off_mn) - exp_alcohol_off_mn]
+  alcohol_data[, exp_change_alcohol_off_bp := exp_change_alcohol_off * (1 - tax_off_pct - 0.1426 - 0.2515)] ## use 2021 import/DTM figures
+
+  alcohol_data[, exp_change_alcohol_on := ((1 + pct_change_on) * exp_alcohol_on_mn) - exp_alcohol_on_mn]
+  alcohol_data[, exp_change_alcohol_on_bp := exp_change_alcohol_on * (1 - tax_on_pct - 0.0242 - 0)] ## use 2021 import/DTM figures
 
   ## calculate tax changes
-  alcohol_data[, tax := exp_change_alcohol * tax_pct]
+  alcohol_data[, tax_off := exp_change_alcohol_off * tax_off_pct]
+  alcohol_data[, tax_on := exp_change_alcohol_on * tax_on_pct]
 
   ## sum over all alcohol products
 
-  alcohol_data <- alcohol_data[, .(exp_change_alcohol = sum(exp_change_alcohol),
-                                   exp_change_alcohol_bp = sum(exp_change_alcohol_bp),
-                                   tax_change = sum(tax) )]
+  alcohol_off_data <- alcohol_data[, .(exp_change_alcohol_off = sum(exp_change_alcohol_off),
+                                       exp_change_alcohol_off_bp = sum(exp_change_alcohol_off_bp),
+                                       tax_change_off = sum(tax_off) )]
+
+
+  alcohol_on_data <- alcohol_data[, .(exp_change_alcohol_on = sum(exp_change_alcohol_on),
+                                      exp_change_alcohol_on_bp = sum(exp_change_alcohol_on_bp),
+                                      tax_change_on = sum(tax_on) )]
 
   ## extract outputs
-  alcohol_vec <- c(as.numeric(alcohol_data[,"exp_change_alcohol"]),
-                   as.numeric(alcohol_data[,"exp_change_alcohol_bp"]))
+  alcohol_off_vec <- c(as.numeric(alcohol_off_data[,"exp_change_alcohol_off"]),
+                       as.numeric(alcohol_off_data[,"exp_change_alcohol_off_bp"]))
 
-  alcohol_tax <- as.numeric(alcohol_data[,"tax_change"])
+  alcohol_off_tax <- as.numeric(alcohol_off_data[,"tax_change_off"])
 
-  names(alcohol_vec) <- c("alcohol","alcohol_bp")
+  names(alcohol_off_vec) <- c("alcohol_off","alcohol_off_bp")
+
+
+
+  alcohol_on_vec <- c(as.numeric(alcohol_on_data[,"exp_change_alcohol_on"]),
+                      as.numeric(alcohol_on_data[,"exp_change_alcohol_on_bp"]))
+
+  alcohol_on_tax <- as.numeric(alcohol_on_data[,"tax_change_on"])
+
+  names(alcohol_on_vec) <- c("alcohol_on","alcohol_on_bp")
 
   ###################################
   #### Return vectors as a list
@@ -183,8 +208,10 @@ GenExpenditure <- function(year = 2019,
   return(list(food = food_vec,
               gambling = gambling_vec,
               tobacco = tobacco_vec,
-              alcohol = alcohol_vec,
+              alcohol_off = alcohol_off_vec,
+              alcohol_on = alcohol_on_vec,
               tob_tax = tobacco_tax,
-              alc_tax = alcohol_tax))
+              alc_off_tax = alcohol_off_tax,
+              alc_on_tax = alcohol_on_tax))
 
 }
