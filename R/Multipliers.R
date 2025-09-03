@@ -31,6 +31,12 @@ Multipliers <- function(year_io = 2019){
   if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
+  if (year_io == 2021){
+    inputoutput <- cdohio.mod::inputoutput_2021
+  }
+  if (year_io == 2022){
+    inputoutput <- cdohio.mod::inputoutput_2022
+  }
 
   ####################################################
   ### Type 1 Multipliers (direct + indirect effects)

@@ -28,13 +28,19 @@ GovtSpendVector <- function(year_io = 2019,
     spend_vec <- cdohio.mod::govt_spending$govt_2017
   }
   if (year_io == 2018){
-    spend_vec <- cdohio.mod::govt_spending$govt_2017
+    spend_vec <- cdohio.mod::govt_spending$govt_2018
   }
   if (year_io == 2019){
-    spend_vec <- cdohio.mod::govt_spending$govt_2017
+    spend_vec <- cdohio.mod::govt_spending$govt_2019
   }
   if (year_io == 2020){
-    spend_vec <- cdohio.mod::govt_spending$govt_2017
+    spend_vec <- cdohio.mod::govt_spending$govt_2020
+  }
+  if (year_io == 2021){
+    spend_vec <- cdohio.mod::govt_spending$govt_2021
+  }
+  if (year_io == 2022){
+    spend_vec <- cdohio.mod::govt_spending$govt_2022
   }
 
   ####################################
