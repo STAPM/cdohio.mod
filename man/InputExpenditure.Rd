@@ -4,43 +4,10 @@
 \alias{InputExpenditure}
 \title{Input Demand Changes}
 \usage{
-InputExpenditure(
-  year = 2019,
-  change_food = rep(0, 19),
-  change_gambling = rep(0, 9),
-  change_tobacco_licit = rep(0, 2),
-  change_tobacco_illicit = rep(0, 2),
-  change_alcohol = rep(0, 4),
-  reallocate_food = NULL
-)
+InputExpenditure(food_input_data)
 }
 \arguments{
-\item{year}{Numeric integer. Year of expenditure data to use - default is 2019.}
-
-\item{change_food}{Numeric integer. Absolute change in expenditure (£mn) on 19 categories of food;
-1. Milk, 2. Cheese, 3. Carcase meat, 4. Non-carcase meat and meat products, 5. Fish, 6. Eggs,
-7. Fats, 8. Sugar and preserves, 9. Potatoes, 10. Fruit and veg, 11. Bread, 12. Flour, 13. Cakes, buns, and pastries,
-14. Biscuits and crispbreads, 15. Cereals and cereal products, 16. Beverages, 17. Other food and drink, 18. Soft drinks,
-19. Confectionary.}
-
-\item{change_gambling}{Numeric integer. Absolute change in expenditure (£mn) (gross gambling yield) on 9
-gambling categories (arcades, betting (non-remote), bingo (non-remote), casino (non-remote),
-betting (remote), bingo (remote), casino (remote), lotteries, the National Lottery)}
-
-\item{change_tobacco_licit}{Numeric vector. Absolute change in expenditure (£mn) on 2
-licit tobacco product categories (cigarettes, handrolled tobacco)}
-
-\item{change_tobacco_illicit}{Numeric vector. Absolute change in expenditure (£mn) on 2
-illicit tobacco product categories (cigarettes, handrolled tobacco)}
-
-\item{change_alcohol}{Numeric vector. Absolute change in expenditure (£mn) on 4 alcohol
-product categories (beer, cider, spirits, wine)}
-
-\item{reallocate_food}{Numeric. Reallocating changed expenditure on food to other food categories.
-Select one of the seven food categories in the input-output model to reallocate the changed spending
-on food to; (1) meat and meat products (2) fish, fruit, and vegetables (3) oils and fats (4) dairy
-products (5) grains and starch (6) bakery and farinaceous products (7) other food products. (Default value
-is `NULL` which means no reallocation across food categories).}
+\item{food_input_data}{Data table. Must contain the following columns - `CPA`, `Product`, and `exp_change`}
 }
 \value{
 A list object
