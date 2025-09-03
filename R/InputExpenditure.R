@@ -54,6 +54,11 @@ InputExpenditure <- function(input_data,
   #### Changes in gambling expenditure
 
 
+  gambling_vec <- 0
+
+
+  ##########################################
+  #### TOBACCO AND ALCOHOL #################
 
 
   if (model_type == "stapm"){
@@ -84,9 +89,11 @@ InputExpenditure <- function(input_data,
   } else {
 
   tobacco_vec <- rep(0,3)
-  alcohol_vec <- rep(0,2)
-  tob_tax_vec <- 0
-  alc_tax_vec <- 0
+  alcohol_on_vec <- rep(0,2)
+  alcohol_off_vec <- rep(0,2)
+  tobacco_tax <- 0
+  alcohol_on_tax <- 0
+  alcohol_off_tax <- 0
 
   }
 
@@ -104,8 +111,10 @@ InputExpenditure <- function(input_data,
   return(list(food = food_vec,
               gambling = gambling_vec,
               tobacco = tobacco_vec,
-              alcohol = alcohol_vec,
-              tob_tax = tob_tax_vec,
-              alc_tax = alc_tax_vec))
+              alcohol_off = alcohol_off_vec,
+              alcohol_on = alcohol_on_vec,
+              tob_tax = tobacco_tax,
+              alc_off_tax = alcohol_off_tax,
+              alc_on_tax = alcohol_on_tax))
 
 }
