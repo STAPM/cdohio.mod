@@ -70,10 +70,17 @@ GenExpenditure <- function(year = 2019,
                 as.numeric(food_data[cpa == "dairy"             ,"exp_change"]),
                 as.numeric(food_data[cpa == "grains_and_starch" ,"exp_change"]),
                 as.numeric(food_data[cpa == "bakery"            ,"exp_change"]),
-                as.numeric(food_data[cpa == "other_food"        ,"exp_change"]))
+                as.numeric(food_data[cpa == "other_food"        ,"exp_change"]),
+                as.numeric(food_data[cpa == "soft_drinks"       ,"exp_change"]))
+
+  ### Edit 22/08/2025 - add another element for out of home - zero in this case,
+  ### but keeps the data structure consistent with InputExpenditure() which has
+  ### an entry for out of home
+
+  food_vec <- c(food_vec, 0)
 
   names(food_vec) <- c("meat","fish_fruit_and_veg","oils_and_fats","dairy",
-                       "grains_and_starch","bakery","other_food")
+                       "grains_and_starch","bakery","other_food","soft_drinks","out_of_home")
 
   ## reallocate change in spending on food to the selected category
 
