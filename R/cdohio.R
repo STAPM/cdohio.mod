@@ -15,6 +15,10 @@
 #' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2019.
 #' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
 #' @param base Numeric. Base year to use for inflation adjustment - default is 2019.
+#' @param model_type Character. A public health model being used to supply inputs. One of c("none","healthei","stapm"). If "none" publicly
+#' available aggregate data are used to calculate inputs with `GenExpenditure`. Otherwise `InputExpenditure` is used to process pre-prepared
+#' changes in demand data from the respective model into inputs for the analysis.
+#' @param input_data Data table. Input data on changes in demand derived from external sources.
 #' @param reallocate_prop Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.
 #' @param excluded_products Character vector. Products to exclude from reallocation. The products excluded can be any from
 #' c("alcohol","tobacco","food","gambling") - default is to exclude all four categories.
@@ -73,6 +77,8 @@
 cdohio <- function(year = 2019,
                    year_io = 2019,
                    base = 2019,
+                   model_type = "none",
+                   input_data = NULL,
                    reallocate_prop = 1.00,
                    excluded_products = NULL,
                    change_food = rep(0, 19),
@@ -89,6 +95,8 @@ cdohio <- function(year = 2019,
   ###########################################################
   ##### (1) Derive vectors of expenditure changes
 
+  if (model_type == "none"){
+
   scenario <- GenExpenditure(year = year,
                              change_food = change_food,
                              change_gambling = change_gambling,
@@ -97,6 +105,11 @@ cdohio <- function(year = 2019,
                              change_alcohol_on = change_alcohol_on,
                              change_alcohol_off = change_alcohol_off,
                              reallocate_food = reallocate_food)
+  } else {
+
+  scenario <- InputExpenditure(input_data = input_data,
+                               model_type = model_type)
+  }
 
   exp_food        <- sum(scenario$food)
   exp_gambling    <- sum(scenario$gambling)

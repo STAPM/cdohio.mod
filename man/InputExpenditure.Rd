@@ -4,10 +4,12 @@
 \alias{InputExpenditure}
 \title{Input Demand Changes}
 \usage{
-InputExpenditure(food_input_data)
+InputExpenditure(input_data, model_type)
 }
 \arguments{
-\item{food_input_data}{Data table. Must contain the following columns - `CPA`, `Product`, and `exp_change`}
+\item{input_data}{Data table. If model_type = "healthei", it must contain the following columns - `CPA`, `Product`, and `exp_change`}
+
+\item{model_type}{Character. A public health model being used to supply inputs. One of c("none","healthei","stapm")}
 }
 \value{
 A list object

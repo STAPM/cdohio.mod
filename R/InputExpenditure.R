@@ -12,7 +12,8 @@
 #' calculates the change in tax less subsidies on products for alcohol and tobacco so that this is
 #' accounted for in the model.
 #'
-#' @param food_input_data Data table. Must contain the following columns - `CPA`, `Product`, and `exp_change`
+#' @param input_data Data table. If model_type = "healthei", it must contain the following columns - `CPA`, `Product`, and `exp_change`
+#' @param model_type Character. A public health model being used to supply inputs. One of c("none","healthei","stapm")
 #'
 #'
 #' @return A list object
@@ -23,12 +24,15 @@
 #' \dontrun{
 #'
 #' }
-InputExpenditure <- function(food_input_data){
+InputExpenditure <- function(input_data,
+                             model_type){
 
   ###################################
   #### Changes in food expenditure
 
-  food_data <- food_input_data[, .(exp_change = sum(exp_change)), by = c("CPA","Product")]
+  if (model_type == "healthei"){
+
+  food_data <- input_data[, .(exp_change = sum(exp_change)), by = c("CPA","Product")]
 
   food_vec <- c(as.numeric(food_data[Product == "Preserved meat and meat products"                                         ,"exp_change"]),
                 as.numeric(food_data[Product == "Processed and preserved fish, crustaceans, molluscs, fruit and vegetables","exp_change"]),
@@ -40,12 +44,19 @@ InputExpenditure <- function(food_input_data){
                 as.numeric(food_data[Product == "Soft drinks"                                                              ,"exp_change"]),
                 as.numeric(food_data[Product == "Food and beverage serving services"                                       ,"exp_change"]))
 
-  names(food_vec) <- c("meat","fish_fruit_and_veg","oils_and_fats","dairy",
-                       "grains_and_starch","bakery","other_food","soft_drinks","out_of_home")
+  } else {
+
+  food_vec <- rep(0,9)
+
+  }
 
   #########################################
   #### Changes in gambling expenditure
 
+
+
+
+  if (model_type == "stapm"){
 
   #########################################
   #### Changes in tobacco expenditure
@@ -55,6 +66,9 @@ InputExpenditure <- function(food_input_data){
   ## table combined alcohol and tobacco category.
   ## Assumes tobacco import % = joint tobacco and alcohol import % and distributors trading
   ## margin for tobacco = 0
+
+
+
 
 
   #########################################
@@ -67,15 +81,31 @@ InputExpenditure <- function(food_input_data){
   ## margin for alcohol = joint tobacco and alcohol
 
 
+  } else {
+
+  tobacco_vec <- rep(0,3)
+  alcohol_vec <- rep(0,2)
+  tob_tax_vec <- 0
+  alc_tax_vec <- 0
+
+  }
+
+  names(food_vec) <- c("meat","fish_fruit_and_veg","oils_and_fats","dairy",
+                       "grains_and_starch","bakery","other_food","soft_drinks","out_of_home")
+  names(gambling_vec) <- c("gambling")
+  names(alcohol_on_vec) <- c("alcohol_on","alcohol_on_bp")
+  names(alcohol_off_vec) <- c("alcohol_off","alcohol_off_bp")
+  names(tobacco_vec) <- c("tobacco_l","tobacco_l_bp","tobacco_i")
+
 
   ###################################
   #### Return vectors as a list
 
   return(list(food = food_vec,
-              gambling = 0,
-              tobacco = rep(0,3),
-              alcohol = rep(0,2),
-              tob_tax = 0,
-              alc_tax = 0))
+              gambling = gambling_vec,
+              tobacco = tobacco_vec,
+              alcohol = alcohol_vec,
+              tob_tax = tob_tax_vec,
+              alc_tax = alc_tax_vec))
 
 }
