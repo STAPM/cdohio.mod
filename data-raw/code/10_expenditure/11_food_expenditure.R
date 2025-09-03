@@ -26,10 +26,9 @@ food_expenditure[Code %in% c("22023","cat520","12901")  , group := "dairy"]
 food_expenditure[Code %in% c("281301")                  , group := "grains_and_starch"]
 food_expenditure[Code %in% c("26401","267270","271277",
                              "251263")                  , group := "bakery"]
+food_expenditure[Code %in% c("340344")                  , group := "soft_drinks"]
 food_expenditure[Code %in% c("304313","314339",
-                             "340344","350355","150154"), group := "other_food"]
-
-
+                             "350355","150154")         , group := "other_food"]
 
 food_expenditure <- food_expenditure[, c("Code","Food Category","Food Group","group",
                                          "...48","...49","...50","...51","...52",
