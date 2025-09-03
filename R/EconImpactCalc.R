@@ -57,6 +57,12 @@ EconImpactCalc <- function(year = 2019,
   if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
+  if (year_io == 2021){
+    inputoutput <- cdohio.mod::inputoutput_2021
+  }
+  if (year_io == 2022){
+    inputoutput <- cdohio.mod::inputoutput_2022
+  }
 
   L0 <- diag(nrow(inputoutput$L))
 
@@ -277,6 +283,12 @@ EconImpactCalc <- function(year = 2019,
   } else if (year_io == 2020){
     total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2020"])
     fte           <- cdohio.mod::lfs_empl_data$fte_2020
+  } else if (year_io == 2021){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2021"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2021
+  } else if (year_io == 2022){
+    total_fte     <- sum(cdohio.mod::lfs_empl_data[, "fte_2022"])
+    fte           <- cdohio.mod::lfs_empl_data$fte_2022
   }
 
   ## get baseline totals
