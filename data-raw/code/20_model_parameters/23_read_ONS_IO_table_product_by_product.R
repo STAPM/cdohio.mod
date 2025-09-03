@@ -9,6 +9,8 @@ source("data-raw/code/20_model_parameters/23a_ONS_table_2017.R")
 source("data-raw/code/20_model_parameters/23b_ONS_table_2018.R")
 source("data-raw/code/20_model_parameters/23c_ONS_table_2019.R")
 source("data-raw/code/20_model_parameters/23d_ONS_table_2020.R")
+source("data-raw/code/20_model_parameters/23e_ONS_table_2021.R")
+source("data-raw/code/20_model_parameters/23f_ONS_table_2022.R")
 
 ##################################################################
 ########## write out the datasets ################################
@@ -17,3 +19,5 @@ usethis::use_data(inputoutput_2017, overwrite = TRUE)
 usethis::use_data(inputoutput_2018, overwrite = TRUE)
 usethis::use_data(inputoutput_2019, overwrite = TRUE)
 usethis::use_data(inputoutput_2020, overwrite = TRUE)
+usethis::use_data(inputoutput_2021, overwrite = TRUE)
+usethis::use_data(inputoutput_2022, overwrite = TRUE)
