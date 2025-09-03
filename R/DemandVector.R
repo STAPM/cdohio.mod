@@ -58,6 +58,12 @@ DemandVector <- function(year_io = 2019,
   if (year_io == 2020){
     inputoutput <- cdohio.mod::inputoutput_2020
   }
+  if (year_io == 2021){
+    inputoutput <- cdohio.mod::inputoutput_2021
+  }
+  if (year_io == 2022){
+    inputoutput <- cdohio.mod::inputoutput_2021
+  }
 
   ###############################################
   ### make vectors of different reallocations ###
@@ -218,6 +224,8 @@ DemandVector <- function(year_io = 2019,
   food_grain_starch_bp   <-   (scenario["grains_and_starch"]   * as.numeric(inputoutput$supply[Product == "Grain mill products, starches and starch products","supply_to_output"]) )
   food_bakery_bp         <-   (scenario["bakery"]              * as.numeric(inputoutput$supply[Product == "Bakery and farinaceous products","supply_to_output"]) )
   food_other_bp          <-   (scenario["other_food"]          * as.numeric(inputoutput$supply[Product == "Other food products","supply_to_output"]) )
+  soft_drinks_bp         <-   (scenario["soft_drinks"]         * as.numeric(inputoutput$supply[Product == "Soft drinks","supply_to_output"]) )
+  out_of_home_bp         <-   (scenario["out_of_home"]         * as.numeric(inputoutput$supply[Product == "Food and beverage serving services","supply_to_output"]) )
 
   gambling_bp <- scenario["gambling"] * as.numeric(inputoutput$supply[Product == "Gambling and betting services","supply_to_output"])
 
@@ -229,6 +237,7 @@ DemandVector <- function(year_io = 2019,
   spending_change <- reallocate_prop * (scenario["meat"] + scenario["fish_fruit_and_veg"] + scenario["oils_and_fats"] +
                                           scenario["dairy"] + scenario["grains_and_starch"] +
                                           scenario["bakery"] + scenario["other_food"] +
+                                          scenario["soft_drinks"] + scenario["out_of_home"] +
                                           scenario["tobacco_l"] + scenario["tobacco_i"] +
                                           scenario["alcohol_off"] + scenario["alcohol_on"] + scenario["gambling"]) * -1
 
@@ -271,10 +280,11 @@ DemandVector <- function(year_io = 2019,
   supply_merge[Product == "Grain mill products, starches and starch products", demand_change := food_grain_starch_bp]
   supply_merge[Product == "Bakery and farinaceous products", demand_change := food_bakery_bp]
   supply_merge[Product == "Other food products", demand_change := food_other_bp]
+  supply_merge[Product == "Soft drinks", demand_change := soft_drinks_bp]
 
   supply_merge[Product == "Alcoholic beverages  & Tobacco products", demand_change := scenario["alcohol_off_bp"] + scenario["tobacco_l_bp"]]
 
-  supply_merge[Product == "Food and beverage serving services", demand_change := scenario["alcohol_on_bp"]]
+  supply_merge[Product == "Food and beverage serving services", demand_change := scenario["alcohol_on_bp"] + out_of_home_bp]
 
   supply_merge[Product == "Gambling and betting services", demand_change := gambling_bp]
 
