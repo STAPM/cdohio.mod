@@ -4,10 +4,10 @@
 \alias{GovtSpendVector}
 \title{Generate Government Spending Change Input Vector}
 \usage{
-GovtSpendVector(year_io = 2019, govt_spend = 100, govt_allocation = 1)
+GovtSpendVector(year_io = 2022, govt_spend = 100, govt_allocation = 1)
 }
 \arguments{
-\item{year_io}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.}
+\item{year_io}{Numeric. Year of input-output tables to use (select one from 2017 to 2022) - default is 2022.}
 
 \item{govt_spend}{Numeric. Changes in central government spending.}
 

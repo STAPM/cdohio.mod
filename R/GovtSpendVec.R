@@ -3,7 +3,7 @@
 #' Construct a vector of changes in government spending to add as inputs to
 #' changes in household final demand and include in the input-output model.
 #'
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017 to 2022) - default is 2022.
 #' @param govt_spend Numeric. Changes in central government spending.
 #' @param govt_allocation Numeric. options for the allocation of changes in central government spending. 1 for pro-rata
 #' allocation according to the input-output tables. 2 for full allocation to health (CPA_Q86).
@@ -16,7 +16,7 @@
 #' \dontrun{
 #'
 #' }
-GovtSpendVector <- function(year_io = 2019,
+GovtSpendVector <- function(year_io = 2022,
                             govt_spend = 100,
                             govt_allocation = 1){
 

@@ -12,9 +12,9 @@
 #' the selected input-output to the resulting changes in demand in basic prices, and (v) estimates the consequent
 #' economic outcomes.
 #'
-#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2019.
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
-#' @param base Numeric. Base year to use for inflation adjustment - default is 2019.
+#' @param year Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2022.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017 to 2022) - default is 2022.
+#' @param base Numeric. Base year to use for inflation adjustment - default is 2022.
 #' @param model_type Character. A public health model being used to supply inputs. One of c("none","healthei","stapm"). If "none" publicly
 #' available aggregate data are used to calculate inputs with `GenExpenditure`. Otherwise `InputExpenditure` is used to process pre-prepared
 #' changes in demand data from the respective model into inputs for the analysis.
@@ -74,9 +74,9 @@
 #' \dontrun{
 #'
 #' }
-cdohio <- function(year = 2019,
-                   year_io = 2019,
-                   base = 2019,
+cdohio <- function(year = 2022,
+                   year_io = 2022,
+                   base = 2022,
                    model_type = "none",
                    input_data = NULL,
                    reallocate_prop = 1.00,

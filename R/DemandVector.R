@@ -3,7 +3,7 @@
 #' Take inputs created with the `GenExpenditure` function and construct a vector of changes in
 #' final demand to use as the input to the input-output model.
 #'
-#' @param year_io Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.
+#' @param year_io Numeric. Year of input-output tables to use (select one from 2017 to 2022) - default is 2022.
 #' @param reallocate_prop Numeric. Proportion of total change in spending reallocated to other products (0 to 1) - default is 1.
 #' @param excluded_products Character vector. Products to exclude from reallocation. The products excluded can be any from
 #' c("alcohol","tobacco","food","gambling") - default is to exclude all four categories.
@@ -31,7 +31,7 @@
 #' \dontrun{
 #'
 #' }
-DemandVector <- function(year_io = 2019,
+DemandVector <- function(year_io = 2022,
                          reallocate_prop = 1.00,
                          excluded_products = c("alcohol","tobacco","food","gambling")[1:4],
                          conversion_matrix = cdohio.mod::cpa_conversion_matrix,
@@ -62,7 +62,7 @@ DemandVector <- function(year_io = 2019,
     inputoutput <- cdohio.mod::inputoutput_2021
   }
   if (year_io == 2022){
-    inputoutput <- cdohio.mod::inputoutput_2021
+    inputoutput <- cdohio.mod::inputoutput_2022
   }
 
   ###############################################
@@ -249,14 +249,39 @@ DemandVector <- function(year_io = 2019,
 
   spending_change_cpa <- hhfce_matrix %*% spending_change_vec
 
+  ########################################################################
   ## map onto the 105 CPA category classification used in the io table
-
-
 
   spending_change_cpa2 <- data.table(CPA_hhfce = inputoutput$product_categories_hhfce[,"CPA_hhfce"] ,spending_change_cpa)
   setnames(spending_change_cpa2, names(spending_change_cpa2), c("CPA_hhfce","V1"))
 
+  ## ---------------- ##
+
+  if (year_io == 2021){
+
+    ## relabel product codes in 2022 IO table to match the conversion matrix
+    spending_change_cpa2[CPA_hhfce == "CPA_C25", CPA_hhfce := "CPA_C25OTHER"]
+
+  }
+
+  if (year_io == 2022){
+
+    ## relabel product codes in 2022 IO table to match the conversion matrix
+    spending_change_cpa2[CPA_hhfce == "CPA_C25", CPA_hhfce := "CPA_C25OTHER"]
+
+    ## adjust the conversion matrix
+    conversion_matrix[CPA == "CPA_H53", CPA_hhfce := "CPA_H53"]
+    conversion_matrix[CPA == "CPA_I55", CPA_hhfce := "CPA_I55"]
+
+    conversion_matrix[CPA == "CPA_H53", conversion := 1]
+    conversion_matrix[CPA == "CPA_I55", conversion := 1]
+
+  }
+
+  ## ---------------- ##
+
   merge <- merge(conversion_matrix, spending_change_cpa2, by = "CPA_hhfce", sort = FALSE)
+  merge[CPA == "CPA_C254" & is.na(conversion), conversion == 0]
 
   merge <- merge[, .(reallocated_spend = V1*conversion), by = c("CPA","Product")]
 
