@@ -5,9 +5,9 @@
 \title{Calculate Economic Impacts}
 \usage{
 EconImpactCalc(
-  year = 2019,
-  year_io = 2019,
-  base = 2019,
+  year = 2022,
+  year_io = 2022,
+  base = 2022,
   input_vector,
   alcohol_off_tax = 0,
   alcohol_on_tax = 0,
@@ -15,11 +15,11 @@ EconImpactCalc(
 )
 }
 \arguments{
-\item{year}{Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2019.}
+\item{year}{Numeric. Year of expenditure, tax, and labour market outcomes data to use - default is 2022.}
 
-\item{year_io}{Numeric. Year of input-output tables to use (select one from 2017. 2018, 2019, or 2020) - default is 2019.}
+\item{year_io}{Numeric. Year of input-output tables to use (select one from 2017 to 2022) - default is 2022.}
 
-\item{base}{Numeric. Base year to use for inflation adjustment - default is 2019.}
+\item{base}{Numeric. Base year to use for inflation adjustment - default is 2022.}
 
 \item{input_vector}{Numeric vector. The vector of length 105 of changes in final demand in basic prices.}
 

@@ -151,6 +151,9 @@
 #'   \item{govt_2018}{proportion of central government spending by CPA category (2018)}
 #'   \item{govt_2019}{proportion of central government spending by CPA category (2019)}
 #'   \item{govt_2020}{proportion of central government spending by CPA category (2020)}
+#'   \item{govt_2021}{proportion of central government spending by CPA category (2021)}
+#'   \item{govt_2022}{proportion of central government spending by CPA category (2022)}
+
 #' }
 "govt_spending"
 
