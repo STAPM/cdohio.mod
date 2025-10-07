@@ -59,6 +59,21 @@
 #' }
 "cpa_categories"
 
+#' Food Categories Lookup
+#'
+#' Lookup table for mapping of food categories used in the HEALTHEI modelling to the food categories
+#' in the CPA categories in the input-output modelling
+#'
+#' @format
+#' A data frame with 48 rows and 4 columns:
+#' \describe{
+#'   \item{healthei_product}{Product label)}
+#'   \item{food_category}{Food category}
+#'   \item{CPA}{CPA product code}
+#'   \item{Product}{CPA product label}
+#' }
+"food_cat_lookup"
+
 #' Alcohol Expenditure
 #'
 #' Data on expenditure on beer, cider, wine, and spirits between 2010 and 2021. Expenditure data are

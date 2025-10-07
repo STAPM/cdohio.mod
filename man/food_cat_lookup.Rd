@@ -3,8 +3,16 @@
 \docType{data}
 \name{food_cat_lookup}
 \alias{food_cat_lookup}
-\title{Food Categories}
+\title{Food Categories Lookup}
 \format{
+A data frame with 48 rows and 4 columns:
+\describe{
+  \item{healthei_product}{Product label)}
+  \item{food_category}{Food category}
+  \item{CPA}{CPA product code}
+  \item{Product}{CPA product label}
+}
+
 A data frame with 19 rows and 2 columns:
 \describe{
   \item{food_category}{one of 19 categories of food consumption}
@@ -16,8 +24,13 @@ A data frame with 19 rows and 2 columns:
 }
 \usage{
 food_cat_lookup
+
+food_cat_lookup
 }
 \description{
+Lookup table for mapping of food categories used in the HEALTHEI modelling to the food categories
+in the CPA categories in the input-output modelling
+
 Lookup table showing the correspondence between the 19 Family Food categories of Food and the
 7 categories in the input-output analytical tables.
 }
