@@ -257,6 +257,15 @@ DemandVector <- function(year_io = 2022,
 
   ## ---------------- ##
 
+  if (year_io <= 2020){
+
+    conversion_matrix[CPA_hhfce == "CPA_H53", CPA_hhfce := "CPA_H53&I55"]
+    conversion_matrix[CPA_hhfce == "CPA_I55", CPA_hhfce := "CPA_H53&I55"]
+
+    conversion_matrix[CPA_hhfce == "CPA_H53&I55", conversion := 0.5]
+
+  }
+
   if (year_io == 2021){
 
     ## relabel product codes in 2022 IO table to match the conversion matrix
