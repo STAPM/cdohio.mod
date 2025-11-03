@@ -281,7 +281,8 @@ DemandVector <- function(year_io = 2022,
   ## ---------------- ##
 
   merge <- merge(conversion_matrix, spending_change_cpa2, by = "CPA_hhfce", sort = FALSE, all.x = TRUE)
-  merge[CPA == "CPA_C254" & is.na(conversion), conversion == 0]
+  merge[CPA == "CPA_C254" & is.na(V1), V1 := 0]
+  merge[CPA == "CPA_C254" & is.na(conversion), conversion := 0]
 
   merge <- merge[, .(reallocated_spend = V1*conversion), by = c("CPA","Product")]
 
